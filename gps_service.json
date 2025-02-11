@@ -53,14 +53,24 @@
     {
       "id": 1,
       "name": "Protocol",
-      "type": "char[10]",
-      "default": "\"NMEA\""
+      "type": "ProtocolType",
+      "default": "ProtocolType::NMEA"
     },
     {
       "id": 2,
       "name": "Uart",
       "type": "uint8_t",
       "default": 8
+    }
+  ],
+  "enums": [
+    {
+      "id": "ProtocolType",
+      "base_type": "uint8_t",
+      "values": {
+        "UBX": 0,
+        "NMEA": 1
+      }
     }
   ],
   "type": "GpsService",
