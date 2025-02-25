@@ -48,19 +48,19 @@
       "id": 0,
       "name": "Baudrate",
       "type": "uint32_t",
-      "default": 460800
+      "default": 921600
     },
     {
       "id": 1,
       "name": "Protocol",
       "type": "ProtocolType",
-      "default": "ProtocolType::NMEA"
+      "default": "ProtocolType::UBX"
     },
     {
       "id": 2,
       "name": "Uart",
       "type": "uint8_t",
-      "default": 8
+      "default": 0
     }
   ],
   "enums": [
