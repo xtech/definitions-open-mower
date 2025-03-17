@@ -9,6 +9,7 @@ enum : uint16_t {
   IMU = 4,
   POWER = 5,
   GPS = 6,
+  INPUT = 7,
 };
 }
 
