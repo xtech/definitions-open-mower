@@ -2,75 +2,9 @@
   "type": "InputService",
   "version": 1,
   "inputs": [],
-  "outputs": [
-    {
-      "id": 0,
-      "name": "Key Down",
-      "type": "Key"
-    },
-    {
-      "id": 1,
-      "name": "Key Up",
-      "type": "Key"
-    },
-    {
-      "id": 2,
-      "name": "Hall Triggered",
-      "type": "Hall"
-    },
-    {
-      "id": 3,
-      "name": "Hall Released",
-      "type": "Hall"
-    }
-  ],
-  "registers": [
-    {
-      "id": 0,
-      "name": "Available Keys",
-      "type": "Key[20]",
-      "default": "{Key::START, Key::HOME}",
-      "default_length": 2
-    },
-    {
-      "id": 1,
-      "name": "Available Halls",
-      "type": "Hall[10]",
-      "default": "{Hall::STOP, Hall::TRAPPED, Hall::BATTERY_COVER}",
-      "default_length": 3
-    },
-    {
-      "id": 2,
-      "name": "Halls Emergency Modes",
-      "type": "HallEmergencyMode[10]",
-      "default": "{HallEmergencyMode::STOP, HallEmergencyMode::LIFT_TILT, HallEmergencyMode::STOP}",
-      "default_length": 3
-    }
-  ],
+  "outputs": [],
+  "registers": [],
   "enums": [
-    {
-      "id": "Key",
-      "base_type": "uint16_t",
-      "values": {
-        "START": 0,
-        "HOME": 1,
-        "OK": 2,
-        "BACK": 3,
-        "LEFT": 4,
-        "RIGHT": 5,
-        "UP": 6,
-        "DOWN": 7
-      }
-    },
-    {
-      "id": "Hall",
-      "base_type": "uint16_t",
-      "values": {
-        "STOP": 0,
-        "TRAPPED": 1,
-        "BATTERY_COVER": 2
-      }
-    },
     {
       "id": "HallEmergencyMode",
       "base_type": "uint8_t",
