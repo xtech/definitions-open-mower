@@ -1,0 +1,7 @@
+InputConfig = [
+	name: tstr,
+	driver: "gpio" / "worx",
+	emergency_type: "button" / "lift",
+	? line: uint, ; Only for gpio
+	? worx_id: tstr ; Only for worx
+]
