@@ -7,7 +7,18 @@
       "type": "double[9]"
     }
   ],
-  "registers": [],
+  "registers": [
+    {
+      "id": 0,
+      "name": "AxisRemap",
+      "type": "uint8_t[3]"
+    },
+    {
+      "id": 1,
+      "name": "AxisSign",
+      "type": "int8_t[3]"
+    }
+  ],
   "type": "ImuService",
   "version": 1
 }
