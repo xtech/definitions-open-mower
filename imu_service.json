@@ -7,7 +7,13 @@
       "type": "double[9]"
     }
   ],
-  "registers": [],
+  "registers": [
+    {
+      "id": 0,
+      "name": "AxisRemap",
+      "type": "int8_t[3]"
+    }
+  ],
   "type": "ImuService",
   "version": 1
 }
