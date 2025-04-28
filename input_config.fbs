@@ -1,0 +1,31 @@
+namespace OpenMower.Input;
+
+enum EmergencyType:byte {
+  BUTTON,
+  LIFT,
+}
+
+table GpioDriver {
+  line:uint;
+}
+
+table WorxDriver {
+  id:string;
+}
+
+union Driver {
+  Worx:WorxDriver,
+  Gpio:GpioDriver,
+}
+
+table InputConfig { 
+  name:string;
+  emergency_type:EmergencyType;
+  driver:Driver;
+}
+
+table InputConfigs {
+  inputs:[InputConfig];
+}
+
+root_type InputConfigs; 
