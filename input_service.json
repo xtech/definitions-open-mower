@@ -3,16 +3,11 @@
   "version": 1,
   "inputs": [],
   "outputs": [],
-  "registers": [],
-  "enums": [
+  "registers": [
     {
-      "id": "HallEmergencyMode",
-      "base_type": "uint8_t",
-      "values": {
-        "NONE": 0,
-        "STOP": 1,
-        "LIFT_TILT": 2
-      }
+      "id": 0,
+      "name": "Input Configs",
+      "type": "blob"
     }
   ]
 }
