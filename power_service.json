@@ -31,9 +31,40 @@
       "id": 4,
       "name": "Charger Enabled",
       "type": "uint8_t"
+    },
+    {
+      "id": 5,
+      "name": "Battery Percentage",
+      "type": "float"
     }
   ],
-  "registers": [],
+  "registers": [
+    {
+      "id": 0,
+      "name": "Charge Current",
+      "type": "float"
+    },
+    {
+      "id": 1,
+      "name": "Battery Empty Voltage",
+      "type": "float"
+    },
+    {
+      "id": 2,
+      "name": "Battery Full Voltage",
+      "type": "float"
+    },
+    {
+      "id": 3,
+      "name": "Critical Battery Low Voltage",
+      "type": "float"
+    },
+    {
+      "id": 4,
+      "name": "Critical Battery High Voltage",
+      "type": "float"
+    }
+  ],
   "type": "PowerService",
   "version": 1
 }
