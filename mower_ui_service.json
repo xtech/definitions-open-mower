@@ -38,9 +38,9 @@
   ],
   "outputs": [
     {
-      "id": 8,
-      "name": "Action",
-      "type": "HighLevelAction"
+      "id": 0,
+      "name": "ButtonPressedEvent",
+      "type": "uint32_t"
     }
   ],
   "registers": [
@@ -54,17 +54,6 @@
         "IDLE": 1,
         "AUTONOMOUS": 2,
         "RECORDING": 3
-      }
-    },
-    {
-      "id": "HighLevelAction",
-      "base_type": "uint8_t",
-      "values": {
-        "START": 1,
-        "STOP": 2,
-        "PAUSE": 3,
-        "RECORDING": 4,
-        "RELEASE_EMERGENCY": 255
       }
     }
   ],
