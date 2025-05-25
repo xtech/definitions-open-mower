@@ -2,12 +2,35 @@
   "type": "InputService",
   "version": 1,
   "inputs": [],
-  "outputs": [],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "Active Inputs",
+      "type": "uint32_t"
+    },
+    {
+      "id": 1,
+      "name": "Input Event",
+      "type": "uint8_t[2]"
+    }
+  ],
   "registers": [
     {
       "id": 0,
       "name": "Input Configs",
       "type": "blob"
+    }
+  ],
+  "enums": [
+    {
+      "id": "InputEventType",
+      "base_type": "uint8_t",
+      "values": {
+        "ACTIVE": 0,
+        "INACTIVE": 1,
+        "SHORT": 2,
+        "LONG": 3
+      }
     }
   ]
 }
