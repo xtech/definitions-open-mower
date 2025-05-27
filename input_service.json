@@ -6,7 +6,7 @@
     {
       "id": 0,
       "name": "Active Inputs",
-      "type": "uint32_t"
+      "type": "uint64_t"
     },
     {
       "id": 1,
