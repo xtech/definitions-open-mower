@@ -1,7 +1,13 @@
 {
   "type": "InputService",
   "version": 1,
-  "inputs": [],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "Simulated Inputs",
+      "type": "uint64_t"
+    }
+  ],
   "outputs": [
     {
       "id": 0,
