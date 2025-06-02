@@ -1,29 +1,35 @@
 {
+  "type": "EmergencyService",
+  "version": 1,
   "inputs": [
     {
       "id": 0,
-      "name": "Set Emergency",
-      "type": "uint8_t"
+      "name": "High Level Emergency",
+      "type": "uint16_t[2]"
     }
   ],
   "outputs": [
     {
       "id": 0,
-      "name": "Emergency Active",
-      "type": "uint8_t"
-    },
-    {
-      "id": 1,
-      "name": "Emergency Latch",
-      "type": "uint8_t"
-    },
-    {
-      "id": 2,
       "name": "Emergency Reason",
-      "type": "char[255]"
+      "type": "uint16_t"
     }
   ],
-  "registers": [],
-  "type": "EmergencyService",
-  "version": 1
+  "enums": [
+    {
+      "id": "EmergencyReason",
+      "base_type": "uint16_t",
+      "bitmask": true,
+      "values": {
+        "LATCH": 0,
+        "TIMEOUT_INPUTS": 1,
+        "STOP": 2,
+        "LIFT": 3,
+        "TILT": 4,
+        "COLLISION": 5,
+        "TIMEOUT_HIGH_LEVEL": 6,
+        "HIGH_LEVEL": 7
+      }
+    }
+  ]
 }
