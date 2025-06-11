@@ -25,7 +25,7 @@
         "TIMEOUT_INPUTS": 1,
         "STOP": 2,
         "LIFT": 3,
-        "TILT": 4,
+        "LIFT_MULTIPLE": 4,
         "COLLISION": 5,
         "TIMEOUT_HIGH_LEVEL": 6,
         "HIGH_LEVEL": 7
