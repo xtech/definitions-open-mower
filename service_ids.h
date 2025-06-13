@@ -10,7 +10,7 @@ enum : uint16_t {
   POWER = 5,
   GPS = 6,
   INPUT = 7,
-  MOWER_UI = 8
+  HIGH_LEVEL = 8
 };
 }
 
