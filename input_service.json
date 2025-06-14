@@ -25,6 +25,24 @@
       "id": 0,
       "name": "Input Configs",
       "type": "blob"
+    },
+    {
+      "id": 1,
+      "name": "Debounce Time",
+      "type": "uint32_t",
+      "default": 10
+    },
+    {
+      "id": 2,
+      "name": "Long Press Time",
+      "type": "uint32_t",
+      "default": 500
+    },
+    {
+      "id": 3,
+      "name": "Lift Multiple Delay",
+      "type": "uint32_t",
+      "default": 10
     }
   ],
   "enums": [
