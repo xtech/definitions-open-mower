@@ -55,7 +55,7 @@
     {
       "id": 9,
       "name": "Battery Status BMS",
-      "type": "char[25]"
+      "type": "uint16_t"
     },
     {
       "id": 10,
@@ -92,8 +92,9 @@
   ],
   "enums": [
     {
-      "id": "BatteryStatusBit",
+      "id": "BatteryStatusBitMask",
       "base_type": "uint16_t",
+      "bitmask": true,
       "values": {
         "FULLY_DISCHARGED": 4,
         "FULLY_CHARGED": 5,
@@ -103,9 +104,9 @@
         "ALARM_REMAINING_CAPACITY": 9,
         "ALARM_TERMINATE_DISCHARGE": 11,
         "ALARM_OVER_TEMPERATURE": 12,
-        "ALARM_TERMINATE_CHARGE": 13,
-        "ALARM_CHARGE_INHIBITED": 14,
-        "ALARM_OVER_CHARGED": 15
+        "ALARM_TERMINATE_CHARGE": 14,
+        "ALARM_CHARGE_INHIBITED": 15,
+        "ALARM_OVER_CHARGED": 16
       }
     }
   ],
