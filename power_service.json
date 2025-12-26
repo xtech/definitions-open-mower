@@ -39,7 +39,7 @@
     },
     {
       "id": 6,
-      "name": "Charge Current BMS",
+      "name": "Battery Current",
       "type": "float"
     },
     {
@@ -54,7 +54,7 @@
     },
     {
       "id": 9,
-      "name": "Battery Status BMS",
+      "name": "Battery Status",
       "type": "uint16_t"
     },
     {
