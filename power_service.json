@@ -97,18 +97,20 @@
   ],
   "enums": [
     {
-      "id": "BatteryStatusBitMask",
+      "id": "BatteryStatusBit",
       "base_type": "uint16_t",
       "bitmask": true,
       "values": {
-        "FULLY_DISCHARGED": 4,
-        "FULLY_CHARGED": 5,
-        "DISCHARGING": 6,
-        "INITIALIZED": 7,
+        "STATUS_FULLY_DISCHARGED": 4,
+        "STATUS_FULLY_CHARGED": 5,
+        "STATUS_DISCHARGING": 6,
+        "STATUS_INITIALIZED": 7,
         "ALARM_REMAINING_TIME": 8,
         "ALARM_REMAINING_CAPACITY": 9,
+        "ALARM_RESERVED1": 10,
         "ALARM_TERMINATE_DISCHARGE": 11,
         "ALARM_OVER_TEMPERATURE": 12,
+        "ALARM_RESERVED2": 13,
         "ALARM_TERMINATE_CHARGE": 14,
         "ALARM_OVER_CHARGED": 15
       }
