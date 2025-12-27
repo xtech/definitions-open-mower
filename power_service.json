@@ -59,7 +59,7 @@
     },
     {
       "id": 10,
-      "name": "Battery Status",
+      "name": "BMS Status",
       "type": "uint16_t"
     },
     {
@@ -97,7 +97,7 @@
   ],
   "enums": [
     {
-      "id": "BatteryStatusBit",
+      "id": "BMSStatusBit",
       "base_type": "uint16_t",
       "bitmask": true,
       "values": {
