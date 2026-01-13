@@ -53,7 +53,13 @@
         "UNKNOWN": 0,
         "IDLE": 1,
         "AUTONOMOUS": 2,
-        "RECORDING": 3
+        "RECORDING": 3,
+        "SUBSTATE_1": 0,
+        "SUBSTATE_2": 1,
+        "SUBSTATE_3": 2,
+        "SUBSTATE_4": 3,
+        "SUBSTATE_SHIFT": 6,
+        "SUBSTATE_MASK": 3
       }
     }
   ]
