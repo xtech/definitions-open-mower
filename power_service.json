@@ -14,62 +14,72 @@
     },
     {
       "id": 1,
-      "name": "Charge Current",
+      "name": "Charge Voltage ADC",
       "type": "float"
     },
     {
       "id": 2,
-      "name": "Battery Voltage",
+      "name": "Charge Current",
       "type": "float"
     },
     {
       "id": 3,
-      "name": "Charging Status",
-      "type": "char[25]"
+      "name": "Battery Voltage",
+      "type": "float"
     },
     {
       "id": 4,
-      "name": "Charger Enabled",
-      "type": "uint8_t"
+      "name": "Battery Voltage ADC",
+      "type": "float"
     },
     {
       "id": 5,
-      "name": "Battery Percentage",
-      "type": "float"
-    },
-    {
-      "id": 6,
-      "name": "Battery Current",
-      "type": "float"
-    },
-    {
-      "id": 7,
       "name": "Battery Voltage BMS",
       "type": "float"
     },
     {
+      "id": 6,
+      "name": "Charging Status",
+      "type": "char[25]"
+    },
+    {
+      "id": 7,
+      "name": "Charger Enabled",
+      "type": "uint8_t"
+    },
+    {
       "id": 8,
-      "name": "Battery SoC",
+      "name": "Battery Percentage",
       "type": "float"
     },
     {
       "id": 9,
-      "name": "Battery Temperature",
+      "name": "Battery Current",
       "type": "float"
     },
     {
       "id": 10,
+      "name": "Battery SoC",
+      "type": "float"
+    },
+    {
+      "id": 11,
+      "name": "Battery Temperature",
+      "type": "float"
+    },
+    {
+      "id": 12,
       "name": "Battery Status",
       "type": "uint16_t"
     },
     {
-      "id": 11,
+      "id": 13,
       "name": "BMS Extra Data",
       "type": "char[256]"
     },
     {
-      "id": 12,
-      "name": "System Current",
+      "id": 14,
+      "name": "DCDC Input Current",
       "type": "float"
     }
   ],
