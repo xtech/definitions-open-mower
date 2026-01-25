@@ -9,7 +9,7 @@
   "outputs": [
     {
       "id": 0,
-      "name": "Charge Voltage",
+      "name": "Charge Voltage CHG",
       "type": "float"
     },
     {
@@ -24,7 +24,7 @@
     },
     {
       "id": 3,
-      "name": "Battery Voltage",
+      "name": "Battery Voltage CHG",
       "type": "float"
     },
     {
