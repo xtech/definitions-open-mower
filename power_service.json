@@ -9,7 +9,7 @@
   "outputs": [
     {
       "id": 0,
-      "name": "Charge Voltage",
+      "name": "Charge Voltage CHG",
       "type": "float"
     },
     {
@@ -19,7 +19,7 @@
     },
     {
       "id": 2,
-      "name": "Battery Voltage",
+      "name": "Battery Voltage CHG",
       "type": "float"
     },
     {
@@ -66,6 +66,21 @@
       "id": 11,
       "name": "BMS Extra Data",
       "type": "char[256]"
+    },
+    {
+      "id": 12,
+      "name": "Charge Voltage ADC",
+      "type": "float"
+    },
+    {
+      "id": 13,
+      "name": "Battery Voltage ADC",
+      "type": "float"
+    },
+    {
+      "id": 14,
+      "name": "DCDC Input Current",
+      "type": "float"
     }
   ],
   "registers": [
@@ -92,6 +107,11 @@
     {
       "id": 4,
       "name": "Critical Battery High Voltage",
+      "type": "float"
+    },
+    {
+      "id": 5,
+      "name": "System Current",
       "type": "float"
     }
   ],

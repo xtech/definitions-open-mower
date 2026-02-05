@@ -1,4 +1,6 @@
 {
+  "type": "HighLevelService",
+  "version": 1,
   "inputs": [
     {
       "id": 0,
@@ -40,10 +42,8 @@
     {
       "id": 8,
       "name": "Action",
-      "type": "HighLevelAction"
+      "type": "char[100]"
     }
-  ],
-  "registers": [
   ],
   "enums": [
     {
@@ -53,21 +53,14 @@
         "UNKNOWN": 0,
         "IDLE": 1,
         "AUTONOMOUS": 2,
-        "RECORDING": 3
-      }
-    },
-    {
-      "id": "HighLevelAction",
-      "base_type": "uint8_t",
-      "values": {
-        "START": 1,
-        "STOP": 2,
-        "PAUSE": 3,
-        "RECORDING": 4,
-        "RELEASE_EMERGENCY": 255
+        "RECORDING": 3,
+        "SUBSTATE_1": 0,
+        "SUBSTATE_2": 1,
+        "SUBSTATE_3": 2,
+        "SUBSTATE_4": 3,
+        "SUBSTATE_SHIFT": 6,
+        "SUBSTATE_MASK": 3
       }
     }
-  ],
-  "type": "MowerUiService",
-  "version": 1
+  ]
 }
