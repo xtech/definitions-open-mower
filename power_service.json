@@ -81,6 +81,11 @@
       "id": 14,
       "name": "DCDC Input Current",
       "type": "float"
+    },
+    {
+      "id": 15,
+      "name": "Charger Input Current",
+      "type": "float"
     }
   ],
   "registers": [
@@ -111,7 +116,7 @@
     },
     {
       "id": 5,
-      "name": "System Current",
+      "name": "System Current Limit",
       "type": "float"
     }
   ],
