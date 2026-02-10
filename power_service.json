@@ -116,7 +116,7 @@
     },
     {
       "id": 5,
-      "name": "System Current Limit",
+      "name": "System Current",
       "type": "float"
     }
   ],
