@@ -118,6 +118,21 @@
       "id": 5,
       "name": "System Current",
       "type": "float"
+    },
+    {
+      "id": 6,
+      "name": "Charge Voltage",
+      "type": "float"
+    },
+    {
+      "id": 7,
+      "name": "Termination Current",
+      "type": "float"
+    },
+    {
+      "id": 8,
+      "name": "Precharge Current",
+      "type": "float"
     }
   ],
   "enums": [
