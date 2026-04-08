@@ -121,17 +121,17 @@
     },
     {
       "id": 6,
-      "name": "Charge Voltage",
+      "name": "ChgV",
       "type": "float"
     },
     {
       "id": 7,
-      "name": "Termination Current",
+      "name": "TrmA",
       "type": "float"
     },
     {
       "id": 8,
-      "name": "Precharge Current",
+      "name": "PreA",
       "type": "float"
     }
   ],
