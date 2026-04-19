@@ -103,6 +103,24 @@
       "id": 8,
       "name": "PreCharge Current",
       "type": "float"
+    },
+    {
+      "id": 9,
+      "name": "ReCharge Voltage",
+      "type": "ReChargeVoltages",
+      "default": "ReChargeVoltages::PERCENT_95_2"
+    }
+  ],
+  "enums": [
+    {
+      "id": "ReChargeVoltages",
+      "base_type": "uint8_t",
+      "values": {
+        "PERCENT_93_0": 0,
+        "PERCENT_94_3": 1,
+        "PERCENT_95_2": 2,
+        "PERCENT_97_6": 3
+      }
     }
   ],
   "type": "PowerService",
