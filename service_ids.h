@@ -10,7 +10,8 @@ enum : uint16_t {
   POWER = 5,
   GPS = 6,
   INPUT = 7,
-  HIGH_LEVEL = 8
+  HIGH_LEVEL = 8,
+  BMS = 9
 };
 }
 

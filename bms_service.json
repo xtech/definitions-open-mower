@@ -1,0 +1,72 @@
+{
+  "inputs": [],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "Voltage",
+      "type": "float"
+    },
+    {
+      "id": 1,
+      "name": "Current",
+      "type": "float"
+    },
+    {
+      "id": 2,
+      "name": "RelativeStateOfCharge",
+      "type": "float"
+    },
+    {
+      "id": 3,
+      "name": "RemainingCapacity",
+      "type": "float"
+    },
+    {
+      "id": 4,
+      "name": "FullChargeCapacity",
+      "type": "float"
+    },
+    {
+      "id": 5,
+      "name": "CycleCount",
+      "type": "uint16_t"
+    },
+    {
+      "id": 6,
+      "name": "Temperature",
+      "type": "float"
+    },
+    {
+      "id": 7,
+      "name": "BatteryStatus",
+      "type": "uint16_t"
+    },
+    {
+      "id": 8,
+      "name": "Extra Data",
+      "type": "char[256]"
+    }
+  ],
+  "registers": [],
+  "enums": [
+    {
+      "id": "BatteryStatusBit",
+      "base_type": "uint16_t",
+      "bitmask": true,
+      "values": {
+        "STATUS_FULLY_DISCHARGED": 4,
+        "STATUS_FULLY_CHARGED": 5,
+        "STATUS_DISCHARGING": 6,
+        "STATUS_INITIALIZED": 7,
+        "ALARM_REMAINING_TIME": 8,
+        "ALARM_REMAINING_CAPACITY": 9,
+        "ALARM_TERMINATE_DISCHARGE": 11,
+        "ALARM_OVER_TEMPERATURE": 12,
+        "ALARM_TERMINATE_CHARGE": 14,
+        "ALARM_OVER_CHARGED": 15
+      }
+    }
+  ],
+  "type": "BmsService",
+  "version": 1
+}
