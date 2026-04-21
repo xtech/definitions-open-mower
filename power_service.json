@@ -9,12 +9,12 @@
   "outputs": [
     {
       "id": 0,
-      "name": "Charge Voltage",
+      "name": "Charging Voltage",
       "type": "float"
     },
     {
       "id": 1,
-      "name": "Charge Current",
+      "name": "Charging Current",
       "type": "float"
     },
     {
@@ -24,7 +24,7 @@
     },
     {
       "id": 3,
-      "name": "Charging Status",
+      "name": "Charger Status",
       "type": "char[25]"
     },
     {
@@ -39,7 +39,7 @@
     },
     {
       "id": 6,
-      "name": "Charge Voltage ADC",
+      "name": "Charging Voltage ADC",
       "type": "float"
     },
     {
