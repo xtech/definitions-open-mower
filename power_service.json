@@ -108,7 +108,7 @@
       "id": 9,
       "name": "ReCharge Voltage",
       "type": "ReChargeVoltages",
-      "default": "ReChargeVoltages::PERCENT_95_2"
+      "default": "ReChargeVoltages::PERCENT_97_6"
     }
   ],
   "enums": [
