@@ -9,12 +9,12 @@
   "outputs": [
     {
       "id": 0,
-      "name": "Charging Voltage",
+      "name": "Charge Voltage",
       "type": "float"
     },
     {
       "id": 1,
-      "name": "Charging Current",
+      "name": "Charge Current",
       "type": "float"
     },
     {
@@ -24,7 +24,7 @@
     },
     {
       "id": 3,
-      "name": "Charger Status",
+      "name": "Charging Status",
       "type": "char[25]"
     },
     {
@@ -39,7 +39,7 @@
     },
     {
       "id": 6,
-      "name": "Charging Voltage ADC",
+      "name": "Charge Voltage ADC",
       "type": "float"
     },
     {
@@ -62,7 +62,8 @@
     {
       "id": 0,
       "name": "Charge Current",
-      "type": "float"
+      "type": "float",
+      "optional": true
     },
     {
       "id": 1,
@@ -87,22 +88,26 @@
     {
       "id": 5,
       "name": "System Current",
-      "type": "float"
+      "type": "float",
+      "optional": true
     },
     {
       "id": 6,
       "name": "Charge Voltage",
-      "type": "float"
+      "type": "float",
+      "optional": true
     },
     {
       "id": 7,
       "name": "Termination Current",
-      "type": "float"
+      "type": "float",
+      "optional": true
     },
     {
       "id": 8,
       "name": "PreCharge Current",
-      "type": "float"
+      "type": "float",
+      "optional": true
     },
     {
       "id": 9,
