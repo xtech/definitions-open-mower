@@ -114,6 +114,12 @@
       "name": "ReCharge Voltage",
       "type": "ReChargeVoltages",
       "optional": true
+    },
+    {
+      "id": 10,
+      "name": "Dangerously Override Hardware Current Limit",
+      "type": "uint8_t",
+      "optional": true
     }
   ],
   "enums": [
