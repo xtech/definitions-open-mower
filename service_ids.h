@@ -11,7 +11,8 @@ enum : uint16_t {
   GPS = 6,
   INPUT = 7,
   HIGH_LEVEL = 8,
-  BMS = 9
+  BMS = 9,
+  REMOTE_GPIO = 10,
 };
 }
 
