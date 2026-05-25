@@ -1,0 +1,115 @@
+{
+  "type": "RemoteGPIOService",
+  "version": 1,
+  "outputs": [
+    {
+      "id": 0,
+      "name": "GPIO Event",
+      "type": "uint8_t[4]"
+    }
+  ],
+  "registers": [
+    {
+      "id": 0,
+      "name": "GPIO Configs",
+      "type": "blob"
+    },
+    {
+      "id": 1,
+      "name": "Periodic Update Interval",
+      "type": "uint32_t",
+      "default": 1000
+    }
+  ],
+  "functions": [
+    {
+      "id": 0,
+      "name": "ReadGPIO",
+      "parameters": [
+        { "id": 0, "name": "GPIOID", "type": "uint8_t" }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 1,
+      "name": "WriteGPIO",
+      "parameters": [
+        { "id": 0, "name": "GPIOID", "type": "uint8_t" },
+        { "id": 1, "name": "Value",  "type": "uint8_t" }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 2,
+      "name": "SubscribeGPIO",
+      "parameters": [
+        { "id": 0, "name": "GPIOID",   "type": "uint8_t" },
+        { "id": 1, "name": "Periodic", "type": "uint8_t" }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 3,
+      "name": "UnsubscribeGPIO",
+      "parameters": [
+        { "id": 0, "name": "GPIOID", "type": "uint8_t" }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 4,
+      "name": "UnsubscribeAll",
+      "parameters": [],
+      "return_type": "void"
+    },
+    {
+      "id": 5,
+      "name": "I2cTransmit",
+      "parameters": [
+        { "id": 0, "name": "BusID",   "type": "uint8_t" },
+        { "id": 1, "name": "Address", "type": "uint8_t" },
+        { "id": 2, "name": "Data",    "type": "uint8_t[64]" }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 6,
+      "name": "I2cReceive",
+      "parameters": [
+        { "id": 0, "name": "BusID",   "type": "uint8_t" },
+        { "id": 1, "name": "Address", "type": "uint8_t" },
+        { "id": 2, "name": "Count",   "type": "uint8_t" }
+      ],
+      "return_type": "uint8_t[68]"
+    },
+    {
+      "id": 7,
+      "name": "I2cTransmitReceive",
+      "parameters": [
+        { "id": 0, "name": "BusID",   "type": "uint8_t" },
+        { "id": 1, "name": "Address", "type": "uint8_t" },
+        { "id": 2, "name": "TxData",  "type": "uint8_t[64]" },
+        { "id": 3, "name": "RxCount", "type": "uint8_t" }
+      ],
+      "return_type": "uint8_t[68]"
+    }
+  ],
+  "enums": [
+    {
+      "id": "GPIOEventFlags",
+      "base_type": "uint8_t",
+      "values": { "PERIODIC": 1 }
+    },
+    {
+      "id": "I2cResult",
+      "base_type": "uint8_t",
+      "values": {
+        "OK": 0,
+        "ERR_TIMEOUT": 1,
+        "ERR_NACK": 2,
+        "ERR_BUS": 3,
+        "ERR_UNKNOWN": 4
+      }
+    }
+  ]
+}
