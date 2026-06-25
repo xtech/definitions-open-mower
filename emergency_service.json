@@ -1,6 +1,6 @@
 {
   "type": "EmergencyService",
-  "version": 1,
+  "version": 2,
   "inputs": [
     {
       "id": 0,
@@ -28,7 +28,8 @@
         "LIFT_MULTIPLE": 4,
         "COLLISION": 5,
         "TIMEOUT_HIGH_LEVEL": 6,
-        "HIGH_LEVEL": 7
+        "HIGH_LEVEL": 7,
+        "SERVICE_NOT_READY": 8
       }
     }
   ]
