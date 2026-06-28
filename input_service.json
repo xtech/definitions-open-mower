@@ -43,6 +43,12 @@
       "name": "Lift Multiple Delay",
       "type": "uint32_t",
       "default": 10
+    },
+    {
+      "id": 4,
+      "name": "Collision Multiple Delay",
+      "type": "uint32_t",
+      "default": 10
     }
   ],
   "enums": [
