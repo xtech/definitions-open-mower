@@ -1,0 +1,26 @@
+{
+  "type": "MetaService",
+  "version": 1,
+  "functions": [
+    {
+      "id": 0,
+      "name": "GetFirmwareVersion",
+      "parameters": [],
+      "return_type": "char[50]"
+    },
+    {
+      "id": 1,
+      "name": "GetMajorVersion",
+      "parameters": [],
+      "return_type": "uint16_t"
+    }
+  ],
+  "registers": [
+    {
+      "id": 0,
+      "name": "Robot Firmware",
+      "type": "char[50]",
+      "optional": true
+    }
+  ]
+}
