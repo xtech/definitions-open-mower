@@ -120,6 +120,13 @@
       "name": "Dangerously Override Hardware Charge Current Limit",
       "type": "uint8_t",
       "default": 0
+    },
+    {
+      "id": 11,
+      "name": "Log Debug",
+      "type": "uint8_t",
+      "optional": true,
+      "default": 0
     }
   ],
   "enums": [
