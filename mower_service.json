@@ -2,8 +2,8 @@
   "inputs": [
     {
       "id": 0,
-      "name": "MowerEnabled",
-      "type": "uint8_t"
+      "name": "Mower Speed",
+      "type": "float"
     }
   ],
   "outputs": [
@@ -44,6 +44,7 @@
     }
   ],
   "registers": [],
+  "enums": [],
   "type": "MowerService",
-  "version": 1
+  "version": 2
 }
