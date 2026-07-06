@@ -2,8 +2,8 @@
   "inputs": [
     {
       "id": 0,
-      "name": "MowerEnabled",
-      "type": "uint8_t"
+      "name": "Mower Speed",
+      "type": "float"
     }
   ],
   "outputs": [
@@ -41,9 +41,24 @@
       "id": 6,
       "name": "Mower Motor RPM",
       "type": "float"
+    },
+    {
+      "id": 7,
+      "name": "Mower Motor Direction",
+      "type": "MowerDirection"
     }
   ],
   "registers": [],
+  "enums": [
+    {
+      "id": "MowerDirection",
+      "base_type": "uint8_t",
+      "values": {
+        "REVERSE": 0,
+        "FORWARD": 1
+      }
+    }
+  ],
   "type": "MowerService",
-  "version": 1
+  "version": 2
 }
