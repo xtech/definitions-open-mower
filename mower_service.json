@@ -41,24 +41,10 @@
       "id": 6,
       "name": "Mower Motor RPM",
       "type": "float"
-    },
-    {
-      "id": 7,
-      "name": "Mower Motor Direction",
-      "type": "MowerDirection"
     }
   ],
   "registers": [],
-  "enums": [
-    {
-      "id": "MowerDirection",
-      "base_type": "uint8_t",
-      "values": {
-        "REVERSE": 0,
-        "FORWARD": 1
-      }
-    }
-  ],
+  "enums": [],
   "type": "MowerService",
-  "version": 2
+  "version": 3
 }
