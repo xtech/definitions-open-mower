@@ -30,7 +30,9 @@
         "COLLISION_MULTIPLE": 9,
         "TIMEOUT_HIGH_LEVEL": 6,
         "HIGH_LEVEL": 7,
-        "SERVICE_NOT_READY": 8
+        "SERVICE_NOT_READY": 8,
+        "MOWER_RPM_TIMEOUT": 10,
+        "MOWER_RPM_LIMIT": 11
       }
     }
   ]
