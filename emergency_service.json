@@ -32,7 +32,8 @@
         "HIGH_LEVEL": 7,
         "SERVICE_NOT_READY": 8,
         "MOWER_RPM_TIMEOUT": 10,
-        "MOWER_RPM_LIMIT": 11
+        "MOWER_RPM_LIMIT": 11,
+        "FIRMWARE_INCOMPATIBLE": 12
       }
     }
   ]
