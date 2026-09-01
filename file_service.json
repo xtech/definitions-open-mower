@@ -1,0 +1,34 @@
+{
+  "type": "FileService",
+  "version": 1,
+  "functions": [
+    {
+      "id": 0,
+      "name": "FileExists",
+      "parameters": [
+        { "id": 0, "name": "Path", "type": "char[128]" },
+        { "id": 1, "name": "Hash", "type": "uint32_t" }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 1,
+      "name": "FileRemove",
+      "parameters": [
+        { "id": 0, "name": "Path", "type": "char[128]" }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 2,
+      "name": "FileWrite",
+      "parameters": [
+        { "id": 0, "name": "Path", "type": "char[128]" },
+        { "id": 1, "name": "Offset", "type": "uint32_t" },
+        { "id": 2, "name": "Data", "type": "uint8_t[256]" },
+        { "id": 3, "name": "Hash", "type": "uint32_t" }
+      ],
+      "return_type": "int32_t"
+    }
+  ]
+}

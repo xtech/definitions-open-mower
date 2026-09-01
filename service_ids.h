@@ -13,7 +13,8 @@ enum : uint16_t {
   HIGH_LEVEL = 8,
   BMS = 9,
   REMOTE_GPIO = 10,
-  META = 11
+  META = 11,
+  FILE = 12
 };
 }
 
