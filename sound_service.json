@@ -1,0 +1,18 @@
+{
+  "type": "SoundService",
+  "version": 1,
+  "enums": [
+    {
+      "id": "SoundId",
+      "base_type": "uint8_t",
+      "values": {
+        "BOOT_PING": 0,
+        "BOOT_COMPLETE": 1,
+        "SUCCESS": 2,
+        "WARNING": 3,
+        "ERROR": 4,
+        "EMERGENCY": 5
+      }
+    }
+  ]
+}
