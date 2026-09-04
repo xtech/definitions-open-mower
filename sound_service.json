@@ -5,6 +5,7 @@
     {
       "id": "LL_SoundId",
       "base_type": "uint8_t",
+      "to_string": true,
       "values": {
         "LL_BOOT_PING": 0,
         "LL_BOOT_COMPLETE": 1,
