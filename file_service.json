@@ -29,6 +29,15 @@
         { "id": 3, "name": "Hash", "type": "uint32_t" }
       ],
       "return_type": "int32_t"
+    },
+    {
+      "id": 3,
+      "name": "FileList",
+      "parameters": [
+        { "id": 0, "name": "Path", "type": "char[128]" },
+        { "id": 1, "name": "StartIndex", "type": "uint32_t" }
+      ],
+      "return_type": "uint8_t[256]"
     }
   ]
 }
