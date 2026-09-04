@@ -3,21 +3,42 @@
   "version": 1,
   "enums": [
     {
-      "id": "LL_SoundId",
+      "id": "SoundId",
       "base_type": "uint8_t",
       "to_string": true,
       "values": {
-        "LL_BOOT_PING": 0,
-        "LL_BOOT_COMPLETE": 1,
-        "LL_SUCCESS": 2,
-        "LL_WARNING": 3,
-        "LL_ERROR": 4,
-        "LL_EMERGENCY": 5,
-        "LL_LOW_BATTERY": 6,
-        "LL_CHARGING_START": 7,
-        "LL_CHARGING_DONE": 8,
-        "LL_GPS_RTK_FIX": 9,
-        "LL_GPS_RTK_LOST": 10
+        "BOOT_PING": 0,
+        "BOOT_COMPLETE": 1,
+        "SUCCESS": 2,
+        "WARNING": 3,
+        "ERROR": 4,
+        "EMERGENCY": 5,
+        "LOW_BATTERY": 6,
+        "CHARGING_START": 7,
+        "CHARGING_DONE": 8,
+        "GPS_RTK_FIX": 9,
+        "GPS_RTK_LOST": 10
+      }
+    },
+    {
+      "id": "SoundType",
+      "base_type": "uint8_t",
+      "to_string": true,
+      "values": {
+        "TONE": 0,
+        "SEQUENCE": 1,
+        "MP3": 2
+      }
+    },
+    {
+      "id": "Waveform",
+      "base_type": "uint8_t",
+      "to_string": true,
+      "values": {
+        "SINE": 0,
+        "SQUARE": 1,
+        "TRIANGLE": 2,
+        "SAW": 3
       }
     }
   ],
