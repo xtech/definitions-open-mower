@@ -3,16 +3,35 @@
   "version": 1,
   "enums": [
     {
-      "id": "SoundId",
+      "id": "LL_SoundId",
       "base_type": "uint8_t",
       "values": {
-        "BOOT_PING": 0,
-        "BOOT_COMPLETE": 1,
-        "SUCCESS": 2,
-        "WARNING": 3,
-        "ERROR": 4,
-        "EMERGENCY": 5
+        "LL_BOOT_PING": 0,
+        "LL_BOOT_COMPLETE": 1,
+        "LL_SUCCESS": 2,
+        "LL_WARNING": 3,
+        "LL_ERROR": 4,
+        "LL_EMERGENCY": 5,
+        "LL_LOW_BATTERY": 6,
+        "LL_CHARGING_START": 7,
+        "LL_CHARGING_DONE": 8,
+        "LL_GPS_RTK_FIX": 9,
+        "LL_GPS_RTK_LOST": 10
       }
+    }
+  ],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "Volume",
+      "type": "uint8_t"
+    }
+  ],
+  "registers": [
+    {
+      "id": 0,
+      "name": "Sound Definitions",
+      "type": "blob"
     }
   ]
 }

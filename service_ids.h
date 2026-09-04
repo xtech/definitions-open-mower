@@ -14,7 +14,8 @@ enum : uint16_t {
   BMS = 9,
   REMOTE_GPIO = 10,
   META = 11,
-  FILE = 12
+  FILE = 12,
+  SOUND = 13
 };
 }
 
