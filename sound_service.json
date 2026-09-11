@@ -49,6 +49,92 @@
       "type": "uint8_t"
     }
   ],
+  "functions": [
+    {
+      "id": 0,
+      "name": "PlaySound",
+      "parameters": [
+        {
+          "id": 0,
+          "name": "Sound",
+          "type": "SoundId"
+        }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 1,
+      "name": "PlayTone",
+      "parameters": [
+        {
+          "id": 0,
+          "name": "Freq",
+          "type": "uint16_t"
+        },
+        {
+          "id": 1,
+          "name": "DurationMs",
+          "type": "uint16_t"
+        },
+        {
+          "id": 2,
+          "name": "Volume",
+          "type": "uint8_t"
+        }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 2,
+      "name": "PlaySequence",
+      "parameters": [
+        {
+          "id": 0,
+          "name": "Sequence",
+          "type": "char[160]"
+        },
+        {
+          "id": 1,
+          "name": "Wave",
+          "type": "Waveform"
+        },
+        {
+          "id": 2,
+          "name": "Volume",
+          "type": "uint8_t"
+        },
+        {
+          "id": 3,
+          "name": "Unison",
+          "type": "uint8_t"
+        },
+        {
+          "id": 4,
+          "name": "DetuneHz",
+          "type": "uint16_t"
+        }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 3,
+      "name": "PlayMp3",
+      "parameters": [
+        {
+          "id": 0,
+          "name": "Path",
+          "type": "char[128]"
+        }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 4,
+      "name": "Stop",
+      "parameters": [],
+      "return_type": "uint8_t"
+    }
+  ],
   "registers": [
     {
       "id": 0,
