@@ -120,6 +120,16 @@
         },
         {
           "id": 5,
+          "name": "AttackMs",
+          "type": "uint8_t"
+        },
+        {
+          "id": 6,
+          "name": "DecayMs",
+          "type": "uint8_t"
+        },
+        {
+          "id": 7,
           "name": "Preempt",
           "type": "uint8_t"
         }
