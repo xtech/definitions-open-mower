@@ -132,6 +132,11 @@
           "id": 7,
           "name": "Preempt",
           "type": "uint8_t"
+        },
+        {
+          "id": 8,
+          "name": "RepeatMs",
+          "type": "uint16_t"
         }
       ],
       "return_type": "uint8_t"
