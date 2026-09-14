@@ -16,8 +16,10 @@
         "LOW_BATTERY": 6,
         "CHARGING_START": 7,
         "CHARGING_DONE": 8,
-        "GPS_RTK_FIX": 9,
-        "GPS_RTK_LOST": 10
+        "ROS_CONNECTED": 9,
+        "ROS_DISCONNECTED": 10,
+        "GPS_RTK_FIX": 11,
+        "GPS_RTK_LOST": 12
       }
     },
     {
