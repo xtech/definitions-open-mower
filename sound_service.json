@@ -1,0 +1,177 @@
+{
+  "type": "SoundService",
+  "version": 1,
+  "enums": [
+    {
+      "id": "SoundId",
+      "base_type": "uint8_t",
+      "to_string": true,
+      "values": {
+        "BOOT_PING": 0,
+        "BOOT_COMPLETE": 1,
+        "SUCCESS": 2,
+        "WARNING": 3,
+        "ERROR": 4,
+        "EMERGENCY": 5,
+        "LOW_BATTERY": 6,
+        "CHARGING_START": 7,
+        "CHARGING_DONE": 8,
+        "ROS_CONNECTED": 9,
+        "ROS_DISCONNECTED": 10,
+        "GPS_RTK_FIX": 11,
+        "GPS_RTK_LOST": 12
+      }
+    },
+    {
+      "id": "SoundType",
+      "base_type": "uint8_t",
+      "to_string": true,
+      "values": {
+        "TONE": 0,
+        "SEQUENCE": 1,
+        "MP3": 2
+      }
+    },
+    {
+      "id": "Waveform",
+      "base_type": "uint8_t",
+      "to_string": true,
+      "values": {
+        "SINE": 0,
+        "SQUARE": 1,
+        "TRIANGLE": 2,
+        "SAW": 3
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "Volume",
+      "type": "uint8_t"
+    }
+  ],
+  "functions": [
+    {
+      "id": 0,
+      "name": "PlaySound",
+      "parameters": [
+        {
+          "id": 0,
+          "name": "Sound",
+          "type": "SoundId"
+        }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 1,
+      "name": "PlayTone",
+      "parameters": [
+        {
+          "id": 0,
+          "name": "Freq",
+          "type": "uint16_t"
+        },
+        {
+          "id": 1,
+          "name": "DurationMs",
+          "type": "uint16_t"
+        },
+        {
+          "id": 2,
+          "name": "Volume",
+          "type": "uint8_t"
+        },
+        {
+          "id": 3,
+          "name": "Preempt",
+          "type": "uint8_t"
+        }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 2,
+      "name": "PlaySequence",
+      "parameters": [
+        {
+          "id": 0,
+          "name": "Sequence",
+          "type": "char[160]"
+        },
+        {
+          "id": 1,
+          "name": "Wave",
+          "type": "Waveform"
+        },
+        {
+          "id": 2,
+          "name": "Volume",
+          "type": "uint8_t"
+        },
+        {
+          "id": 3,
+          "name": "Unison",
+          "type": "uint8_t"
+        },
+        {
+          "id": 4,
+          "name": "DetuneHz",
+          "type": "uint16_t"
+        },
+        {
+          "id": 5,
+          "name": "AttackMs",
+          "type": "uint8_t"
+        },
+        {
+          "id": 6,
+          "name": "DecayMs",
+          "type": "uint8_t"
+        },
+        {
+          "id": 7,
+          "name": "Preempt",
+          "type": "uint8_t"
+        },
+        {
+          "id": 8,
+          "name": "RepeatMs",
+          "type": "uint16_t"
+        }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 3,
+      "name": "PlayMp3",
+      "parameters": [
+        {
+          "id": 0,
+          "name": "Path",
+          "type": "char[128]"
+        },
+        {
+          "id": 1,
+          "name": "Preempt",
+          "type": "uint8_t"
+        }
+      ],
+      "return_type": "uint8_t"
+    },
+    {
+      "id": 4,
+      "name": "Stop",
+      "parameters": [],
+      "return_type": "uint8_t"
+    }
+  ],
+  "registers": [
+    {
+      "id": 0,
+      "name": "Sound Definitions",
+      "type": "blob"
+    }
+  ]
+}
