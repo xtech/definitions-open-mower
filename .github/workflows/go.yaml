@@ -1,0 +1,54 @@
+name: go
+
+# Guards the generated Go clients in golang/: a schema change without a
+# regenerated client (or a new service without a //go:generate directive) turns
+# this workflow red.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: golang
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff  # v5
+        with:
+          go-version-file: golang/go.mod
+          cache-dependency-path: golang/go.sum
+
+      # Temporary: until xbot_service_interface_go is tagged upstream, the module
+      # is resolved from the framework branch instead of the module proxy. Drop
+      # this step (and the replace in golang/go.mod) once the tag exists, then
+      # clone/tag args become unnecessary.
+      - name: Resolve xbot_codegen
+        run: |
+          git clone --depth 1 -b feature/go-client https://github.com/Apehaenger/xbot_framework.git "$RUNNER_TEMP/xbot_framework"
+          go mod edit -replace github.com/xtech/xbot_framework/xbot_service_interface_go="$RUNNER_TEMP/xbot_framework/xbot_service_interface_go"
+
+      - name: Format
+        run: |
+          unformatted="$(gofmt -l .)"
+          if [ -n "$unformatted" ]; then
+            echo "gofmt needed for:"; echo "$unformatted"; exit 1
+          fi
+      - name: Regenerate clients
+        run: |
+          go generate ./...
+          git checkout -- go.mod   # undo the CI only replace before diffing
+          git diff --exit-code
+      - name: Vet
+        run: go vet ./...
+      - name: Build
+        run: go build ./...
+      - name: Test
+        run: go test ./...
