@@ -26,8 +26,8 @@ const ()
 type ProtocolType uint8
 
 const (
-	ProtocolTypeUBX  ProtocolType = 0
-	ProtocolTypeNMEA ProtocolType = 1
+	ProtocolTypeUbx  ProtocolType = 0 // UBX
+	ProtocolTypeNmea ProtocolType = 1 // NMEA
 )
 
 // Client is a client for the GpsService service.
@@ -51,24 +51,24 @@ func (c *Client) Close() error { return c.conn.Close() }
 // Endpoint returns the "ip:port" of the service.
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
-// SetBaudrate writes the register 0 ("Baudrate") as a configuration transaction.
+// SetBaudrate writes the register 0 as a configuration transaction.
 func (c *Client) SetBaudrate(Baudrate uint32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 0, Data: leUint32(Baudrate)})
 }
 
-// SetProtocol writes the register 1 ("Protocol") as a configuration transaction.
+// SetProtocol writes the register 1 as a configuration transaction.
 func (c *Client) SetProtocol(Protocol ProtocolType) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 1, Data: leUint8(uint8(Protocol))})
 }
 
-// SetUart writes the register 2 ("Uart") as a configuration transaction.
+// SetUart writes the register 2 as a configuration transaction.
 func (c *Client) SetUart(Uart uint8) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 2, Data: leUint8(Uart)})
 }
 
-// SendRTCM sends the input 0 ("RTCM").
-func (c *Client) SendRTCM(RTCM []byte) error {
-	return c.conn.SendData(0, byteParam(RTCM, 255))
+// SendRtcm sends the input 0 ("RTCM" in the service.json).
+func (c *Client) SendRtcm(Rtcm []byte) error {
+	return c.conn.SendData(0, byteParam(Rtcm, 255))
 }
 
 // The service has 7 outputs; receiving them needs a receive loop in

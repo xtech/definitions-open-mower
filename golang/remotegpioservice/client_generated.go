@@ -26,27 +26,27 @@ const (
 	FnSubscribeGPIO      uint8 = 2
 	FnUnsubscribeGPIO    uint8 = 3
 	FnUnsubscribeAll     uint8 = 4
-	FnI2cTransmit        uint8 = 5
-	FnI2cReceive         uint8 = 6
-	FnI2cTransmitReceive uint8 = 7
+	FnI2CTransmit        uint8 = 5
+	FnI2CReceive         uint8 = 6
+	FnI2CTransmitReceive uint8 = 7
 )
 
 // GPIOEventFlags values (service.json -> "enums").
 type GPIOEventFlags uint8
 
 const (
-	GPIOEventFlagsPERIODIC GPIOEventFlags = 1
+	GPIOEventFlagsPeriodic GPIOEventFlags = 1 // PERIODIC
 )
 
-// I2cResult values (service.json -> "enums").
-type I2cResult uint8
+// I2CResult is the service.json enum "I2cResult".
+type I2CResult uint8
 
 const (
-	I2cResultOK          I2cResult = 0
-	I2cResultERR_TIMEOUT I2cResult = 1
-	I2cResultERR_NACK    I2cResult = 2
-	I2cResultERR_BUS     I2cResult = 3
-	I2cResultERR_UNKNOWN I2cResult = 4
+	I2CResultOk         I2CResult = 0 // OK
+	I2CResultErrTimeout I2CResult = 1 // ERR_TIMEOUT
+	I2CResultErrNack    I2CResult = 2 // ERR_NACK
+	I2CResultErrBus     I2CResult = 3 // ERR_BUS
+	I2CResultErrUnknown I2CResult = 4 // ERR_UNKNOWN
 )
 
 // Client is a client for the RemoteGPIOService service.
@@ -134,9 +134,9 @@ func (c *Client) UnsubscribeAll(ctx context.Context) error {
 	return err
 }
 
-// I2cTransmit calls the RPC function 5.
-func (c *Client) I2cTransmit(ctx context.Context, BusID uint8, Address uint8, Data []byte) (uint8, error) {
-	payload, err := c.conn.Call(ctx, FnI2cTransmit,
+// I2CTransmit calls the RPC function 5 ("I2cTransmit" in the service.json).
+func (c *Client) I2CTransmit(ctx context.Context, BusID uint8, Address uint8, Data []byte) (uint8, error) {
+	payload, err := c.conn.Call(ctx, FnI2CTransmit,
 		xbot.Bytes(0, leUint8(BusID)),
 		xbot.Bytes(1, leUint8(Address)),
 		xbot.Bytes(2, byteParam(Data, 64)),
@@ -145,14 +145,14 @@ func (c *Client) I2cTransmit(ctx context.Context, BusID uint8, Address uint8, Da
 		return 0, err
 	}
 	if len(payload) < 1 {
-		return 0, errf("I2cTransmit returned %d bytes, want 1", len(payload))
+		return 0, errf("I2CTransmit returned %d bytes, want 1", len(payload))
 	}
 	return payload[0], nil
 }
 
-// I2cReceive calls the RPC function 6.
-func (c *Client) I2cReceive(ctx context.Context, BusID uint8, Address uint8, Count uint8) ([]byte, error) {
-	payload, err := c.conn.Call(ctx, FnI2cReceive,
+// I2CReceive calls the RPC function 6 ("I2cReceive" in the service.json).
+func (c *Client) I2CReceive(ctx context.Context, BusID uint8, Address uint8, Count uint8) ([]byte, error) {
+	payload, err := c.conn.Call(ctx, FnI2CReceive,
 		xbot.Bytes(0, leUint8(BusID)),
 		xbot.Bytes(1, leUint8(Address)),
 		xbot.Bytes(2, leUint8(Count)),
@@ -163,9 +163,9 @@ func (c *Client) I2cReceive(ctx context.Context, BusID uint8, Address uint8, Cou
 	return append([]byte(nil), payload...), nil
 }
 
-// I2cTransmitReceive calls the RPC function 7.
-func (c *Client) I2cTransmitReceive(ctx context.Context, BusID uint8, Address uint8, TxData []byte, RxCount uint8) ([]byte, error) {
-	payload, err := c.conn.Call(ctx, FnI2cTransmitReceive,
+// I2CTransmitReceive calls the RPC function 7 ("I2cTransmitReceive" in the service.json).
+func (c *Client) I2CTransmitReceive(ctx context.Context, BusID uint8, Address uint8, TxData []byte, RxCount uint8) ([]byte, error) {
+	payload, err := c.conn.Call(ctx, FnI2CTransmitReceive,
 		xbot.Bytes(0, leUint8(BusID)),
 		xbot.Bytes(1, leUint8(Address)),
 		xbot.Bytes(2, byteParam(TxData, 64)),
@@ -177,12 +177,12 @@ func (c *Client) I2cTransmitReceive(ctx context.Context, BusID uint8, Address ui
 	return append([]byte(nil), payload...), nil
 }
 
-// SetGPIOConfigs writes the register 0 ("GPIOConfigs") as a configuration transaction.
+// SetGPIOConfigs writes the register 0 ("GPIO Configs" in the service.json) as a configuration transaction.
 func (c *Client) SetGPIOConfigs(GPIOConfigs []byte) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 0, Data: GPIOConfigs})
 }
 
-// SetPeriodicUpdateInterval writes the register 1 ("PeriodicUpdateInterval") as a configuration transaction.
+// SetPeriodicUpdateInterval writes the register 1 ("Periodic Update Interval" in the service.json) as a configuration transaction.
 func (c *Client) SetPeriodicUpdateInterval(PeriodicUpdateInterval uint32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 1, Data: leUint32(PeriodicUpdateInterval)})
 }

@@ -43,17 +43,17 @@ func (c *Client) Close() error { return c.conn.Close() }
 // Endpoint returns the "ip:port" of the service.
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
-// SetWheelTicksPerMeter writes the register 0 ("WheelTicksPerMeter") as a configuration transaction.
+// SetWheelTicksPerMeter writes the register 0 ("Wheel Ticks Per Meter" in the service.json) as a configuration transaction.
 func (c *Client) SetWheelTicksPerMeter(WheelTicksPerMeter float64) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 0, Data: leFloat64(WheelTicksPerMeter)})
 }
 
-// SetWheelDistance writes the register 1 ("WheelDistance") as a configuration transaction.
+// SetWheelDistance writes the register 1 ("Wheel Distance" in the service.json) as a configuration transaction.
 func (c *Client) SetWheelDistance(WheelDistance float64) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 1, Data: leFloat64(WheelDistance)})
 }
 
-// SendControlTwist sends the input 0 ("ControlTwist").
+// SendControlTwist sends the input 0 ("Control Twist" in the service.json).
 func (c *Client) SendControlTwist(ControlTwist []float64) error {
 	return c.conn.SendData(0, leFloat64Slice(ControlTwist, 6))
 }

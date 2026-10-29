@@ -26,19 +26,19 @@ const ()
 type EmergencyReason uint16
 
 const (
-	EmergencyReasonLATCH                 EmergencyReason = 1 << 0
-	EmergencyReasonTIMEOUT_INPUTS        EmergencyReason = 1 << 1
-	EmergencyReasonSTOP                  EmergencyReason = 1 << 2
-	EmergencyReasonLIFT                  EmergencyReason = 1 << 3
-	EmergencyReasonLIFT_MULTIPLE         EmergencyReason = 1 << 4
-	EmergencyReasonCOLLISION             EmergencyReason = 1 << 5
-	EmergencyReasonTIMEOUT_HIGH_LEVEL    EmergencyReason = 1 << 6
-	EmergencyReasonHIGH_LEVEL            EmergencyReason = 1 << 7
-	EmergencyReasonSERVICE_NOT_READY     EmergencyReason = 1 << 8
-	EmergencyReasonCOLLISION_MULTIPLE    EmergencyReason = 1 << 9
-	EmergencyReasonMOWER_RPM_TIMEOUT     EmergencyReason = 1 << 10
-	EmergencyReasonMOWER_RPM_LIMIT       EmergencyReason = 1 << 11
-	EmergencyReasonFIRMWARE_INCOMPATIBLE EmergencyReason = 1 << 12
+	EmergencyReasonLatch                EmergencyReason = 1 << 0  // LATCH
+	EmergencyReasonTimeoutInputs        EmergencyReason = 1 << 1  // TIMEOUT_INPUTS
+	EmergencyReasonStop                 EmergencyReason = 1 << 2  // STOP
+	EmergencyReasonLift                 EmergencyReason = 1 << 3  // LIFT
+	EmergencyReasonLiftMultiple         EmergencyReason = 1 << 4  // LIFT_MULTIPLE
+	EmergencyReasonCollision            EmergencyReason = 1 << 5  // COLLISION
+	EmergencyReasonTimeoutHighLevel     EmergencyReason = 1 << 6  // TIMEOUT_HIGH_LEVEL
+	EmergencyReasonHighLevel            EmergencyReason = 1 << 7  // HIGH_LEVEL
+	EmergencyReasonServiceNotReady      EmergencyReason = 1 << 8  // SERVICE_NOT_READY
+	EmergencyReasonCollisionMultiple    EmergencyReason = 1 << 9  // COLLISION_MULTIPLE
+	EmergencyReasonMowerRpmTimeout      EmergencyReason = 1 << 10 // MOWER_RPM_TIMEOUT
+	EmergencyReasonMowerRpmLimit        EmergencyReason = 1 << 11 // MOWER_RPM_LIMIT
+	EmergencyReasonFirmwareIncompatible EmergencyReason = 1 << 12 // FIRMWARE_INCOMPATIBLE
 )
 
 // Client is a client for the EmergencyService service.
@@ -62,7 +62,7 @@ func (c *Client) Close() error { return c.conn.Close() }
 // Endpoint returns the "ip:port" of the service.
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
-// SendHighLevelEmergency sends the input 0 ("HighLevelEmergency").
+// SendHighLevelEmergency sends the input 0 ("High Level Emergency" in the service.json).
 func (c *Client) SendHighLevelEmergency(HighLevelEmergency []uint16) error {
 	return c.conn.SendData(0, leUint16Slice(HighLevelEmergency, 2))
 }

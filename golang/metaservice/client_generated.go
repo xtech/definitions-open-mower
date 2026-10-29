@@ -67,7 +67,7 @@ func (c *Client) GetMajorVersion(ctx context.Context) (uint16, error) {
 	return binary.LittleEndian.Uint16(payload[:2]), nil
 }
 
-// SetRobotFirmware writes the register 0 ("RobotFirmware") as a configuration transaction.
+// SetRobotFirmware writes the register 0 ("Robot Firmware" in the service.json) as a configuration transaction.
 func (c *Client) SetRobotFirmware(RobotFirmware string) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 0, Data: charParam(RobotFirmware, 50)})
 }

@@ -26,16 +26,16 @@ const ()
 type HighLevelStatus uint8
 
 const (
-	HighLevelStatusSUBSTATE_1     HighLevelStatus = 0
-	HighLevelStatusUNKNOWN        HighLevelStatus = 0
-	HighLevelStatusIDLE           HighLevelStatus = 1
-	HighLevelStatusSUBSTATE_2     HighLevelStatus = 1
-	HighLevelStatusAUTONOMOUS     HighLevelStatus = 2
-	HighLevelStatusSUBSTATE_3     HighLevelStatus = 2
-	HighLevelStatusRECORDING      HighLevelStatus = 3
-	HighLevelStatusSUBSTATE_4     HighLevelStatus = 3
-	HighLevelStatusSUBSTATE_MASK  HighLevelStatus = 3
-	HighLevelStatusSUBSTATE_SHIFT HighLevelStatus = 6
+	HighLevelStatusSubstate1     HighLevelStatus = 0 // SUBSTATE_1
+	HighLevelStatusUnknown       HighLevelStatus = 0 // UNKNOWN
+	HighLevelStatusIdle          HighLevelStatus = 1 // IDLE
+	HighLevelStatusSubstate2     HighLevelStatus = 1 // SUBSTATE_2
+	HighLevelStatusAutonomous    HighLevelStatus = 2 // AUTONOMOUS
+	HighLevelStatusSubstate3     HighLevelStatus = 2 // SUBSTATE_3
+	HighLevelStatusRecording     HighLevelStatus = 3 // RECORDING
+	HighLevelStatusSubstate4     HighLevelStatus = 3 // SUBSTATE_4
+	HighLevelStatusSubstateMask  HighLevelStatus = 3 // SUBSTATE_MASK
+	HighLevelStatusSubstateShift HighLevelStatus = 6 // SUBSTATE_SHIFT
 )
 
 // Client is a client for the HighLevelService service.
@@ -59,37 +59,37 @@ func (c *Client) Close() error { return c.conn.Close() }
 // Endpoint returns the "ip:port" of the service.
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
-// SendStateID sends the input 0 ("StateID").
+// SendStateID sends the input 0 ("State ID" in the service.json).
 func (c *Client) SendStateID(StateID HighLevelStatus) error {
 	return c.conn.SendData(0, leUint8(uint8(StateID)))
 }
 
-// SendStateName sends the input 1 ("StateName").
+// SendStateName sends the input 1 ("State Name" in the service.json).
 func (c *Client) SendStateName(StateName string) error {
 	return c.conn.SendData(1, charParam(StateName, 100))
 }
 
-// SendSubStateName sends the input 2 ("SubStateName").
+// SendSubStateName sends the input 2 ("Sub State Name" in the service.json).
 func (c *Client) SendSubStateName(SubStateName string) error {
 	return c.conn.SendData(2, charParam(SubStateName, 100))
 }
 
-// SendGpsQuality sends the input 3 ("GpsQuality").
-func (c *Client) SendGpsQuality(GpsQuality float32) error {
-	return c.conn.SendData(3, leFloat32(GpsQuality))
+// SendGPSQuality sends the input 3 ("Gps Quality" in the service.json).
+func (c *Client) SendGPSQuality(GPSQuality float32) error {
+	return c.conn.SendData(3, leFloat32(GPSQuality))
 }
 
-// SendCurrentArea sends the input 4 ("CurrentArea").
+// SendCurrentArea sends the input 4 ("Current Area" in the service.json).
 func (c *Client) SendCurrentArea(CurrentArea int16) error {
 	return c.conn.SendData(4, leInt16(CurrentArea))
 }
 
-// SendCurrentPath sends the input 5 ("CurrentPath").
+// SendCurrentPath sends the input 5 ("Current Path" in the service.json).
 func (c *Client) SendCurrentPath(CurrentPath int16) error {
 	return c.conn.SendData(5, leInt16(CurrentPath))
 }
 
-// SendCurrentPathIndex sends the input 6 ("CurrentPathIndex").
+// SendCurrentPathIndex sends the input 6 ("Current Path Index" in the service.json).
 func (c *Client) SendCurrentPathIndex(CurrentPathIndex int16) error {
 	return c.conn.SendData(6, leInt16(CurrentPathIndex))
 }

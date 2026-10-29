@@ -26,10 +26,10 @@ const ()
 type ReChargeVoltages uint8
 
 const (
-	ReChargeVoltagesPERCENT_93_0 ReChargeVoltages = 0
-	ReChargeVoltagesPERCENT_94_3 ReChargeVoltages = 1
-	ReChargeVoltagesPERCENT_95_2 ReChargeVoltages = 2
-	ReChargeVoltagesPERCENT_97_6 ReChargeVoltages = 3
+	ReChargeVoltagesPercent930 ReChargeVoltages = 0 // PERCENT_93_0
+	ReChargeVoltagesPercent943 ReChargeVoltages = 1 // PERCENT_94_3
+	ReChargeVoltagesPercent952 ReChargeVoltages = 2 // PERCENT_95_2
+	ReChargeVoltagesPercent976 ReChargeVoltages = 3 // PERCENT_97_6
 )
 
 // Client is a client for the PowerService service.
@@ -53,67 +53,67 @@ func (c *Client) Close() error { return c.conn.Close() }
 // Endpoint returns the "ip:port" of the service.
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
-// SetChargeCurrent writes the register 0 ("ChargeCurrent") as a configuration transaction.
+// SetChargeCurrent writes the register 0 ("Charge Current" in the service.json) as a configuration transaction.
 func (c *Client) SetChargeCurrent(ChargeCurrent float32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 0, Data: leFloat32(ChargeCurrent)})
 }
 
-// SetBatteryEmptyVoltage writes the register 1 ("BatteryEmptyVoltage") as a configuration transaction.
+// SetBatteryEmptyVoltage writes the register 1 ("Battery Empty Voltage" in the service.json) as a configuration transaction.
 func (c *Client) SetBatteryEmptyVoltage(BatteryEmptyVoltage float32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 1, Data: leFloat32(BatteryEmptyVoltage)})
 }
 
-// SetBatteryFullVoltage writes the register 2 ("BatteryFullVoltage") as a configuration transaction.
+// SetBatteryFullVoltage writes the register 2 ("Battery Full Voltage" in the service.json) as a configuration transaction.
 func (c *Client) SetBatteryFullVoltage(BatteryFullVoltage float32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 2, Data: leFloat32(BatteryFullVoltage)})
 }
 
-// SetCriticalBatteryLowVoltage writes the register 3 ("CriticalBatteryLowVoltage") as a configuration transaction.
+// SetCriticalBatteryLowVoltage writes the register 3 ("Critical Battery Low Voltage" in the service.json) as a configuration transaction.
 func (c *Client) SetCriticalBatteryLowVoltage(CriticalBatteryLowVoltage float32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 3, Data: leFloat32(CriticalBatteryLowVoltage)})
 }
 
-// SetCriticalBatteryHighVoltage writes the register 4 ("CriticalBatteryHighVoltage") as a configuration transaction.
+// SetCriticalBatteryHighVoltage writes the register 4 ("Critical Battery High Voltage" in the service.json) as a configuration transaction.
 func (c *Client) SetCriticalBatteryHighVoltage(CriticalBatteryHighVoltage float32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 4, Data: leFloat32(CriticalBatteryHighVoltage)})
 }
 
-// SetSystemCurrent writes the register 5 ("SystemCurrent") as a configuration transaction.
+// SetSystemCurrent writes the register 5 ("System Current" in the service.json) as a configuration transaction.
 func (c *Client) SetSystemCurrent(SystemCurrent float32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 5, Data: leFloat32(SystemCurrent)})
 }
 
-// SetChargeVoltage writes the register 6 ("ChargeVoltage") as a configuration transaction.
+// SetChargeVoltage writes the register 6 ("Charge Voltage" in the service.json) as a configuration transaction.
 func (c *Client) SetChargeVoltage(ChargeVoltage float32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 6, Data: leFloat32(ChargeVoltage)})
 }
 
-// SetTerminationCurrent writes the register 7 ("TerminationCurrent") as a configuration transaction.
+// SetTerminationCurrent writes the register 7 ("Termination Current" in the service.json) as a configuration transaction.
 func (c *Client) SetTerminationCurrent(TerminationCurrent float32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 7, Data: leFloat32(TerminationCurrent)})
 }
 
-// SetPreChargeCurrent writes the register 8 ("PreChargeCurrent") as a configuration transaction.
+// SetPreChargeCurrent writes the register 8 ("PreCharge Current" in the service.json) as a configuration transaction.
 func (c *Client) SetPreChargeCurrent(PreChargeCurrent float32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 8, Data: leFloat32(PreChargeCurrent)})
 }
 
-// SetReChargeVoltage writes the register 9 ("ReChargeVoltage") as a configuration transaction.
+// SetReChargeVoltage writes the register 9 ("ReCharge Voltage" in the service.json) as a configuration transaction.
 func (c *Client) SetReChargeVoltage(ReChargeVoltage ReChargeVoltages) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 9, Data: leUint8(uint8(ReChargeVoltage))})
 }
 
-// SetDangerouslyOverrideHardwareChargeCurrentLimit writes the register 10 ("DangerouslyOverrideHardwareChargeCurrentLimit") as a configuration transaction.
+// SetDangerouslyOverrideHardwareChargeCurrentLimit writes the register 10 ("Dangerously Override Hardware Charge Current Limit" in the service.json) as a configuration transaction.
 func (c *Client) SetDangerouslyOverrideHardwareChargeCurrentLimit(DangerouslyOverrideHardwareChargeCurrentLimit uint8) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 10, Data: leUint8(DangerouslyOverrideHardwareChargeCurrentLimit)})
 }
 
-// SetLogDebug writes the register 11 ("LogDebug") as a configuration transaction.
+// SetLogDebug writes the register 11 ("Log Debug" in the service.json) as a configuration transaction.
 func (c *Client) SetLogDebug(LogDebug uint8) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 11, Data: leUint8(LogDebug)})
 }
 
-// SendChargingAllowed sends the input 0 ("ChargingAllowed").
+// SendChargingAllowed sends the input 0 ("Charging Allowed" in the service.json).
 func (c *Client) SendChargingAllowed(ChargingAllowed uint8) error {
 	return c.conn.SendData(0, leUint8(ChargingAllowed))
 }

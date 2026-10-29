@@ -37,6 +37,10 @@ go generate ./...    # uses the xbot_service_interface_go version from go.mod
 Run `go generate ./... && git diff --exit-code` in CI so a schema change without a regenerated
 client fails the build.
 
+Identifiers follow the Go naming rules for initialisms (`SoundId` -> `SoundID`, `PlayMp3` ->
+`PlayMP3`), and every generated name that differs carries the `service.json` spelling in its doc or
+trailing comment - so the schema stays the reference: `grep 'PlayMp3'` finds `PlayMP3`.
+
 ## Status
 
 The schemas on this branch generate completely, with two exceptions that the generated files
