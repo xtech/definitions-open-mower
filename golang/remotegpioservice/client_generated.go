@@ -50,7 +50,13 @@ const (
 )
 
 // Client is a client for the RemoteGPIOService service.
-type Client struct{ conn *xbot.Conn }
+type Client struct {
+	conn *xbot.Conn
+	// sendOnly is set when this client does not own the service (NoClaim or
+	// Endpoint): the service sends its RPC answers to the owner, so the calls
+	// are fire and forget.
+	sendOnly bool
+}
 
 // Dial connects to the service; it claims it unless opts.NoClaim is set.
 func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
@@ -61,7 +67,7 @@ func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Client{conn: conn}, nil
+	return &Client{conn: conn, sendOnly: opts.NoClaim || opts.Endpoint != ""}, nil
 }
 
 // Close closes the connection.
@@ -71,7 +77,16 @@ func (c *Client) Close() error { return c.conn.Close() }
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
 // ReadGPIO calls the RPC function 0.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) ReadGPIO(ctx context.Context, GPIOID uint8) (uint8, error) {
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnReadGPIO,
+			xbot.Bytes(0, leUint8(GPIOID)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnReadGPIO,
 		xbot.Bytes(0, leUint8(GPIOID)),
 	)
@@ -85,7 +100,17 @@ func (c *Client) ReadGPIO(ctx context.Context, GPIOID uint8) (uint8, error) {
 }
 
 // WriteGPIO calls the RPC function 1.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) WriteGPIO(ctx context.Context, GPIOID uint8, Value uint8) (uint8, error) {
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnWriteGPIO,
+			xbot.Bytes(0, leUint8(GPIOID)),
+			xbot.Bytes(1, leUint8(Value)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnWriteGPIO,
 		xbot.Bytes(0, leUint8(GPIOID)),
 		xbot.Bytes(1, leUint8(Value)),
@@ -100,7 +125,17 @@ func (c *Client) WriteGPIO(ctx context.Context, GPIOID uint8, Value uint8) (uint
 }
 
 // SubscribeGPIO calls the RPC function 2.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) SubscribeGPIO(ctx context.Context, GPIOID uint8, Periodic uint8) (uint8, error) {
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnSubscribeGPIO,
+			xbot.Bytes(0, leUint8(GPIOID)),
+			xbot.Bytes(1, leUint8(Periodic)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnSubscribeGPIO,
 		xbot.Bytes(0, leUint8(GPIOID)),
 		xbot.Bytes(1, leUint8(Periodic)),
@@ -115,7 +150,16 @@ func (c *Client) SubscribeGPIO(ctx context.Context, GPIOID uint8, Periodic uint8
 }
 
 // UnsubscribeGPIO calls the RPC function 3.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) UnsubscribeGPIO(ctx context.Context, GPIOID uint8) (uint8, error) {
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnUnsubscribeGPIO,
+			xbot.Bytes(0, leUint8(GPIOID)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnUnsubscribeGPIO,
 		xbot.Bytes(0, leUint8(GPIOID)),
 	)
@@ -129,13 +173,31 @@ func (c *Client) UnsubscribeGPIO(ctx context.Context, GPIOID uint8) (uint8, erro
 }
 
 // UnsubscribeAll calls the RPC function 4.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) UnsubscribeAll(ctx context.Context) error {
+	if c.sendOnly {
+		return c.conn.SendRPC(FnUnsubscribeAll)
+	}
 	_, err := c.conn.Call(ctx, FnUnsubscribeAll)
 	return err
 }
 
 // I2CTransmit calls the RPC function 5 ("I2cTransmit" in the service.json).
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) I2CTransmit(ctx context.Context, BusID uint8, Address uint8, Data []byte) (uint8, error) {
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnI2CTransmit,
+			xbot.Bytes(0, leUint8(BusID)),
+			xbot.Bytes(1, leUint8(Address)),
+			xbot.Bytes(2, byteParam(Data, 64)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnI2CTransmit,
 		xbot.Bytes(0, leUint8(BusID)),
 		xbot.Bytes(1, leUint8(Address)),
@@ -151,7 +213,18 @@ func (c *Client) I2CTransmit(ctx context.Context, BusID uint8, Address uint8, Da
 }
 
 // I2CReceive calls the RPC function 6 ("I2cReceive" in the service.json).
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) I2CReceive(ctx context.Context, BusID uint8, Address uint8, Count uint8) ([]byte, error) {
+	if c.sendOnly {
+		return nil, c.conn.SendRPC(FnI2CReceive,
+			xbot.Bytes(0, leUint8(BusID)),
+			xbot.Bytes(1, leUint8(Address)),
+			xbot.Bytes(2, leUint8(Count)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnI2CReceive,
 		xbot.Bytes(0, leUint8(BusID)),
 		xbot.Bytes(1, leUint8(Address)),
@@ -164,7 +237,19 @@ func (c *Client) I2CReceive(ctx context.Context, BusID uint8, Address uint8, Cou
 }
 
 // I2CTransmitReceive calls the RPC function 7 ("I2cTransmitReceive" in the service.json).
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) I2CTransmitReceive(ctx context.Context, BusID uint8, Address uint8, TxData []byte, RxCount uint8) ([]byte, error) {
+	if c.sendOnly {
+		return nil, c.conn.SendRPC(FnI2CTransmitReceive,
+			xbot.Bytes(0, leUint8(BusID)),
+			xbot.Bytes(1, leUint8(Address)),
+			xbot.Bytes(2, byteParam(TxData, 64)),
+			xbot.Bytes(3, leUint8(RxCount)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnI2CTransmitReceive,
 		xbot.Bytes(0, leUint8(BusID)),
 		xbot.Bytes(1, leUint8(Address)),

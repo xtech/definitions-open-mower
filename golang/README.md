@@ -34,8 +34,17 @@ setter per register and a sender per input.
 go generate ./...    # uses the xbot_service_interface_go version from go.mod
 ```
 
-Run `go generate ./... && git diff --exit-code` in CI so a schema change without a regenerated
-client fails the build.
+Run `go generate ./...` and commit the result. CI regenerates the clients and fails when the
+checked-in files differ (it never commits for you), so a schema change without a regenerated client
+turns the build red.
+
+Two local guards catch the same mistake earlier, which matters because a schema change is often a
+JSON-only diff:
+
+- `go test ./...` runs `TestGeneratedClientsAreUpToDate`, which regenerates every client in-process
+  (via `codegen.Generate`) and names the first differing line - no `go generate`, no git, no network.
+- the `go-generate-clients` hook in the repository root (`.pre-commit-config.yaml`) regenerates and
+  refuses the commit until the clients are staged: `pipx install pre-commit && pre-commit install`.
 
 Identifiers follow the Go naming rules for initialisms (`SoundId` -> `SoundID`, `PlayMp3` ->
 `PlayMP3`), and every generated name that differs carries the `service.json` spelling in its doc or

@@ -2,9 +2,5 @@ github.com/fxamacker/cbor/v2 v2.9.3 h1:oQBnFATpNdY8gJHTndDDv5Xl4QqNaz51G5LLEPhng
 github.com/fxamacker/cbor/v2 v2.9.3/go.mod h1:vM4b+DJCtHn+zz7h3FFp/hDAI9WNWCsZj23V5ytsSxQ=
 github.com/x448/float16 v0.8.4 h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM=
 github.com/x448/float16 v0.8.4/go.mod h1:14CWIYCyZA/cWjXOioeEpHeN/83MdbZDRQHoFcYsOfg=
-github.com/xtech/xbot_framework v1.0.0 h1:U2Mp9xwUThrHbrCJWD1+OLDZx+tBzLitHkzGp33T53o=
-github.com/xtech/xbot_framework v1.0.0/go.mod h1:u/g27Tq9faIBevTDtZDqLNoKUByEAejkcRQGIyuI7RE=
-github.com/xtech/xbot_framework/xbot_service_interface_go v0.1.0 h1:03sJ2LiC02896t5eU3zD1Jo81MvDQtvHsjZL3FpH1mA=
-github.com/xtech/xbot_framework/xbot_service_interface_go v0.1.0/go.mod h1:eLlIL4yazNw+Y5eklkt1KkzBvN7OjnXh2HjaHJhsldE=
-github.com/xtech/xbot_framework/xbot_service_interface_go v0.2.0 h1:wLeCRgOMsKaJ0n0XqlGdd02BsyUbb8eosNlRB51KWAk=
-github.com/xtech/xbot_framework/xbot_service_interface_go v0.2.0/go.mod h1:eLlIL4yazNw+Y5eklkt1KkzBvN7OjnXh2HjaHJhsldE=
+github.com/xtech/xbot_framework/xbot_service_interface_go v0.3.0 h1:y9++n1eSOxiWDQ+xgwvEUHrEPz7+6rw5oZd4SlFfRgY=
+github.com/xtech/xbot_framework/xbot_service_interface_go v0.3.0/go.mod h1:eLlIL4yazNw+Y5eklkt1KkzBvN7OjnXh2HjaHJhsldE=

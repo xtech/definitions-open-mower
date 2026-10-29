@@ -39,7 +39,13 @@ const (
 )
 
 // Client is a client for the HighLevelService service.
-type Client struct{ conn *xbot.Conn }
+type Client struct {
+	conn *xbot.Conn
+	// sendOnly is set when this client does not own the service (NoClaim or
+	// Endpoint): the service sends its RPC answers to the owner, so the calls
+	// are fire and forget.
+	sendOnly bool
+}
 
 // Dial connects to the service; it claims it unless opts.NoClaim is set.
 func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
@@ -50,7 +56,7 @@ func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Client{conn: conn}, nil
+	return &Client{conn: conn, sendOnly: opts.NoClaim || opts.Endpoint != ""}, nil
 }
 
 // Close closes the connection.

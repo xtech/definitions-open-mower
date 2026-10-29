@@ -28,7 +28,13 @@ const (
 )
 
 // Client is a client for the FileService service.
-type Client struct{ conn *xbot.Conn }
+type Client struct {
+	conn *xbot.Conn
+	// sendOnly is set when this client does not own the service (NoClaim or
+	// Endpoint): the service sends its RPC answers to the owner, so the calls
+	// are fire and forget.
+	sendOnly bool
+}
 
 // Dial connects to the service; it claims it unless opts.NoClaim is set.
 func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
@@ -39,7 +45,7 @@ func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Client{conn: conn}, nil
+	return &Client{conn: conn, sendOnly: opts.NoClaim || opts.Endpoint != ""}, nil
 }
 
 // Close closes the connection.
@@ -49,7 +55,20 @@ func (c *Client) Close() error { return c.conn.Close() }
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
 // FileExists calls the RPC function 0.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) FileExists(ctx context.Context, Path string, Hash uint32) (uint8, error) {
+	if len(Path) >= 128 { // char[128] includes the NUL
+		return 0, errf("Path too long (%d bytes, max %d)", len(Path), 127)
+	}
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnFileExists,
+			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.Bytes(1, leUint32(Hash)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnFileExists,
 		xbot.Bytes(0, charParam(Path, 128)),
 		xbot.Bytes(1, leUint32(Hash)),
@@ -64,7 +83,19 @@ func (c *Client) FileExists(ctx context.Context, Path string, Hash uint32) (uint
 }
 
 // FileRemove calls the RPC function 1.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) FileRemove(ctx context.Context, Path string) (uint8, error) {
+	if len(Path) >= 128 { // char[128] includes the NUL
+		return 0, errf("Path too long (%d bytes, max %d)", len(Path), 127)
+	}
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnFileRemove,
+			xbot.Bytes(0, charParam(Path, 128)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnFileRemove,
 		xbot.Bytes(0, charParam(Path, 128)),
 	)
@@ -78,7 +109,22 @@ func (c *Client) FileRemove(ctx context.Context, Path string) (uint8, error) {
 }
 
 // FileWrite calls the RPC function 2.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) FileWrite(ctx context.Context, Path string, Offset uint32, Data []byte, Hash uint32) (int32, error) {
+	if len(Path) >= 128 { // char[128] includes the NUL
+		return 0, errf("Path too long (%d bytes, max %d)", len(Path), 127)
+	}
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnFileWrite,
+			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.Bytes(1, leUint32(Offset)),
+			xbot.Bytes(2, byteParam(Data, 256)),
+			xbot.Bytes(3, leUint32(Hash)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnFileWrite,
 		xbot.Bytes(0, charParam(Path, 128)),
 		xbot.Bytes(1, leUint32(Offset)),
@@ -95,7 +141,20 @@ func (c *Client) FileWrite(ctx context.Context, Path string, Offset uint32, Data
 }
 
 // FileList calls the RPC function 3.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) FileList(ctx context.Context, Path string, StartIndex uint32) ([]byte, error) {
+	if len(Path) >= 128 { // char[128] includes the NUL
+		return nil, errf("Path too long (%d bytes, max %d)", len(Path), 127)
+	}
+	if c.sendOnly {
+		return nil, c.conn.SendRPC(FnFileList,
+			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.Bytes(1, leUint32(StartIndex)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnFileList,
 		xbot.Bytes(0, charParam(Path, 128)),
 		xbot.Bytes(1, leUint32(StartIndex)),
