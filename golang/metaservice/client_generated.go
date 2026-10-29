@@ -26,7 +26,13 @@ const (
 )
 
 // Client is a client for the MetaService service.
-type Client struct{ conn *xbot.Conn }
+type Client struct {
+	conn *xbot.Conn
+	// sendOnly is set when this client does not own the service (NoClaim or
+	// Endpoint): the service sends its RPC answers to the owner, so the calls
+	// are fire and forget.
+	sendOnly bool
+}
 
 // Dial connects to the service; it claims it unless opts.NoClaim is set.
 func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
@@ -37,7 +43,7 @@ func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Client{conn: conn}, nil
+	return &Client{conn: conn, sendOnly: opts.NoClaim || opts.Endpoint != ""}, nil
 }
 
 // Close closes the connection.
@@ -47,7 +53,14 @@ func (c *Client) Close() error { return c.conn.Close() }
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
 // GetFirmwareVersion calls the RPC function 0.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) GetFirmwareVersion(ctx context.Context) (string, error) {
+	if c.sendOnly {
+		return "", c.conn.SendRPC(FnGetFirmwareVersion)
+	}
 	payload, err := c.conn.Call(ctx, FnGetFirmwareVersion)
 	if err != nil {
 		return "", err
@@ -56,7 +69,14 @@ func (c *Client) GetFirmwareVersion(ctx context.Context) (string, error) {
 }
 
 // GetMajorVersion calls the RPC function 1.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) GetMajorVersion(ctx context.Context) (uint16, error) {
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnGetMajorVersion)
+	}
 	payload, err := c.conn.Call(ctx, FnGetMajorVersion)
 	if err != nil {
 		return 0, err

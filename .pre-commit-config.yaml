@@ -1,0 +1,25 @@
+# Local pre-commit hook for this repository. Install it once with
+#
+#   pipx install pre-commit      # or: python3 -m pip install pre-commit
+#   pre-commit install
+#
+# The Go clients in golang/ are generated from the *_service.json schemas and
+# checked in (consumers `go get` them, they cannot run the generator). A schema
+# change without its regenerated client is therefore a broken commit. CI
+# enforces that too (.github/workflows/go.yaml); this hook catches it before the
+# commit exists, which is what a schema-only change (a JSON diff) usually needs.
+repos:
+-   repo: local
+    hooks:
+    -   id: go-generate-clients
+        name: go generate the Go clients (xbot-codegen)
+        language: system
+        # The schemas, the id table, the generator pin and the generated files.
+        files: '(^|/)([^/]+_service\.json|service_ids\.h|golang/go\.(mod|sum)|golang/generate\.go|golang/[^/]+/client_generated\.go)$'
+        pass_filenames: false
+        require_serial: true
+        entry: >-
+            bash -c 'cd golang && go generate ./... && if ! git diff --quiet -- "*client_generated.go" ||
+            [ -n "$(git ls-files --others --exclude-standard -- "*client_generated.go")" ]; then
+            echo "golang clients are out of date: they were just regenerated, stage golang/*/client_generated.go and commit again" >&2;
+            exit 1; fi'

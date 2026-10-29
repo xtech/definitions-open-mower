@@ -128,7 +128,13 @@ func (v Waveform) String() string {
 }
 
 // Client is a client for the SoundService service.
-type Client struct{ conn *xbot.Conn }
+type Client struct {
+	conn *xbot.Conn
+	// sendOnly is set when this client does not own the service (NoClaim or
+	// Endpoint): the service sends its RPC answers to the owner, so the calls
+	// are fire and forget.
+	sendOnly bool
+}
 
 // Dial connects to the service; it claims it unless opts.NoClaim is set.
 func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
@@ -139,7 +145,7 @@ func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Client{conn: conn}, nil
+	return &Client{conn: conn, sendOnly: opts.NoClaim || opts.Endpoint != ""}, nil
 }
 
 // Close closes the connection.
@@ -149,7 +155,16 @@ func (c *Client) Close() error { return c.conn.Close() }
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
 // PlaySound calls the RPC function 0.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) PlaySound(ctx context.Context, Sound SoundID) (uint8, error) {
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnPlaySound,
+			xbot.Bytes(0, leUint8(uint8(Sound))),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnPlaySound,
 		xbot.Bytes(0, leUint8(uint8(Sound))),
 	)
@@ -163,7 +178,19 @@ func (c *Client) PlaySound(ctx context.Context, Sound SoundID) (uint8, error) {
 }
 
 // PlayTone calls the RPC function 1.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) PlayTone(ctx context.Context, Freq uint16, DurationMs uint16, Volume uint8, Preempt uint8) (uint8, error) {
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnPlayTone,
+			xbot.Bytes(0, leUint16(Freq)),
+			xbot.Bytes(1, leUint16(DurationMs)),
+			xbot.Bytes(2, leUint8(Volume)),
+			xbot.Bytes(3, leUint8(Preempt)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnPlayTone,
 		xbot.Bytes(0, leUint16(Freq)),
 		xbot.Bytes(1, leUint16(DurationMs)),
@@ -180,7 +207,27 @@ func (c *Client) PlayTone(ctx context.Context, Freq uint16, DurationMs uint16, V
 }
 
 // PlaySequence calls the RPC function 2.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) PlaySequence(ctx context.Context, Sequence string, Wave Waveform, Volume uint8, Unison uint8, DetuneHz uint16, AttackMs uint8, DecayMs uint8, Preempt uint8, RepeatMs uint16) (uint8, error) {
+	if len(Sequence) >= 160 { // char[160] includes the NUL
+		return 0, errf("Sequence too long (%d bytes, max %d)", len(Sequence), 159)
+	}
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnPlaySequence,
+			xbot.Bytes(0, charParam(Sequence, 160)),
+			xbot.Bytes(1, leUint8(uint8(Wave))),
+			xbot.Bytes(2, leUint8(Volume)),
+			xbot.Bytes(3, leUint8(Unison)),
+			xbot.Bytes(4, leUint16(DetuneHz)),
+			xbot.Bytes(5, leUint8(AttackMs)),
+			xbot.Bytes(6, leUint8(DecayMs)),
+			xbot.Bytes(7, leUint8(Preempt)),
+			xbot.Bytes(8, leUint16(RepeatMs)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnPlaySequence,
 		xbot.Bytes(0, charParam(Sequence, 160)),
 		xbot.Bytes(1, leUint8(uint8(Wave))),
@@ -202,7 +249,20 @@ func (c *Client) PlaySequence(ctx context.Context, Sequence string, Wave Wavefor
 }
 
 // PlayMP3 calls the RPC function 3 ("PlayMp3" in the service.json).
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) PlayMP3(ctx context.Context, Path string, Preempt uint8) (uint8, error) {
+	if len(Path) >= 128 { // char[128] includes the NUL
+		return 0, errf("Path too long (%d bytes, max %d)", len(Path), 127)
+	}
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnPlayMP3,
+			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.Bytes(1, leUint8(Preempt)),
+		)
+	}
 	payload, err := c.conn.Call(ctx, FnPlayMP3,
 		xbot.Bytes(0, charParam(Path, 128)),
 		xbot.Bytes(1, leUint8(Preempt)),
@@ -217,7 +277,14 @@ func (c *Client) PlayMP3(ctx context.Context, Path string, Preempt uint8) (uint8
 }
 
 // Stop calls the RPC function 4.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
 func (c *Client) Stop(ctx context.Context) (uint8, error) {
+	if c.sendOnly {
+		return 0, c.conn.SendRPC(FnStop)
+	}
 	payload, err := c.conn.Call(ctx, FnStop)
 	if err != nil {
 		return 0, err

@@ -35,7 +35,14 @@ jobs:
       - name: Regenerate clients
         run: |
           go generate ./...
-          git diff --exit-code
+          # Stage first: plain `git diff` ignores untracked files, so a brand new
+          # client would slip through. Whatever the generator changed or added has
+          # to be committed already.
+          git add -A .
+          if ! git diff --cached --exit-code; then
+            echo "::error::The Go clients do not match the service definitions - run 'cd golang && go generate ./...' and commit the result."
+            exit 1
+          fi
       - name: Vet
         run: go vet ./...
       - name: Build
