@@ -43,7 +43,7 @@ func (c *Client) Close() error { return c.conn.Close() }
 // Endpoint returns the "ip:port" of the service.
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
-// SendMowerSpeed sends the input 0 ("MowerSpeed").
+// SendMowerSpeed sends the input 0 ("Mower Speed" in the service.json).
 func (c *Client) SendMowerSpeed(MowerSpeed float32) error {
 	return c.conn.SendData(0, leFloat32(MowerSpeed))
 }

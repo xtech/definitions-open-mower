@@ -26,16 +26,16 @@ const ()
 type BatteryStatusBit uint16
 
 const (
-	BatteryStatusBitSTATUS_FULLY_DISCHARGED   BatteryStatusBit = 1 << 4
-	BatteryStatusBitSTATUS_FULLY_CHARGED      BatteryStatusBit = 1 << 5
-	BatteryStatusBitSTATUS_DISCHARGING        BatteryStatusBit = 1 << 6
-	BatteryStatusBitSTATUS_INITIALIZED        BatteryStatusBit = 1 << 7
-	BatteryStatusBitALARM_REMAINING_TIME      BatteryStatusBit = 1 << 8
-	BatteryStatusBitALARM_REMAINING_CAPACITY  BatteryStatusBit = 1 << 9
-	BatteryStatusBitALARM_TERMINATE_DISCHARGE BatteryStatusBit = 1 << 11
-	BatteryStatusBitALARM_OVER_TEMPERATURE    BatteryStatusBit = 1 << 12
-	BatteryStatusBitALARM_TERMINATE_CHARGE    BatteryStatusBit = 1 << 14
-	BatteryStatusBitALARM_OVER_CHARGED        BatteryStatusBit = 1 << 15
+	BatteryStatusBitStatusFullyDischarged   BatteryStatusBit = 1 << 4  // STATUS_FULLY_DISCHARGED
+	BatteryStatusBitStatusFullyCharged      BatteryStatusBit = 1 << 5  // STATUS_FULLY_CHARGED
+	BatteryStatusBitStatusDischarging       BatteryStatusBit = 1 << 6  // STATUS_DISCHARGING
+	BatteryStatusBitStatusInitialized       BatteryStatusBit = 1 << 7  // STATUS_INITIALIZED
+	BatteryStatusBitAlarmRemainingTime      BatteryStatusBit = 1 << 8  // ALARM_REMAINING_TIME
+	BatteryStatusBitAlarmRemainingCapacity  BatteryStatusBit = 1 << 9  // ALARM_REMAINING_CAPACITY
+	BatteryStatusBitAlarmTerminateDischarge BatteryStatusBit = 1 << 11 // ALARM_TERMINATE_DISCHARGE
+	BatteryStatusBitAlarmOverTemperature    BatteryStatusBit = 1 << 12 // ALARM_OVER_TEMPERATURE
+	BatteryStatusBitAlarmTerminateCharge    BatteryStatusBit = 1 << 14 // ALARM_TERMINATE_CHARGE
+	BatteryStatusBitAlarmOverCharged        BatteryStatusBit = 1 << 15 // ALARM_OVER_CHARGED
 )
 
 // Client is a client for the BmsService service.

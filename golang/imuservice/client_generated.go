@@ -43,7 +43,7 @@ func (c *Client) Close() error { return c.conn.Close() }
 // Endpoint returns the "ip:port" of the service.
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
-// SetAxisRemap writes the register 0 ("AxisRemap") as a configuration transaction.
+// SetAxisRemap writes the register 0 as a configuration transaction.
 func (c *Client) SetAxisRemap(AxisRemap []int8) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 0, Data: leInt8Slice(AxisRemap, 3)})
 }

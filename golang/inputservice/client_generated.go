@@ -26,10 +26,10 @@ const ()
 type InputEventType uint8
 
 const (
-	InputEventTypeACTIVE   InputEventType = 0
-	InputEventTypeINACTIVE InputEventType = 1
-	InputEventTypeSHORT    InputEventType = 2
-	InputEventTypeLONG     InputEventType = 3
+	InputEventTypeActive   InputEventType = 0 // ACTIVE
+	InputEventTypeInactive InputEventType = 1 // INACTIVE
+	InputEventTypeShort    InputEventType = 2 // SHORT
+	InputEventTypeLong     InputEventType = 3 // LONG
 )
 
 // Client is a client for the InputService service.
@@ -53,32 +53,32 @@ func (c *Client) Close() error { return c.conn.Close() }
 // Endpoint returns the "ip:port" of the service.
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
-// SetInputConfigs writes the register 0 ("InputConfigs") as a configuration transaction.
+// SetInputConfigs writes the register 0 ("Input Configs" in the service.json) as a configuration transaction.
 func (c *Client) SetInputConfigs(InputConfigs []byte) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 0, Data: InputConfigs})
 }
 
-// SetDebounceTime writes the register 1 ("DebounceTime") as a configuration transaction.
+// SetDebounceTime writes the register 1 ("Debounce Time" in the service.json) as a configuration transaction.
 func (c *Client) SetDebounceTime(DebounceTime uint32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 1, Data: leUint32(DebounceTime)})
 }
 
-// SetLongPressTime writes the register 2 ("LongPressTime") as a configuration transaction.
+// SetLongPressTime writes the register 2 ("Long Press Time" in the service.json) as a configuration transaction.
 func (c *Client) SetLongPressTime(LongPressTime uint32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 2, Data: leUint32(LongPressTime)})
 }
 
-// SetLiftMultipleDelay writes the register 3 ("LiftMultipleDelay") as a configuration transaction.
+// SetLiftMultipleDelay writes the register 3 ("Lift Multiple Delay" in the service.json) as a configuration transaction.
 func (c *Client) SetLiftMultipleDelay(LiftMultipleDelay uint32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 3, Data: leUint32(LiftMultipleDelay)})
 }
 
-// SetCollisionMultipleDelay writes the register 4 ("CollisionMultipleDelay") as a configuration transaction.
+// SetCollisionMultipleDelay writes the register 4 ("Collision Multiple Delay" in the service.json) as a configuration transaction.
 func (c *Client) SetCollisionMultipleDelay(CollisionMultipleDelay uint32) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 4, Data: leUint32(CollisionMultipleDelay)})
 }
 
-// SendSimulatedInputs sends the input 0 ("SimulatedInputs").
+// SendSimulatedInputs sends the input 0 ("Simulated Inputs" in the service.json).
 func (c *Client) SendSimulatedInputs(SimulatedInputs uint64) error {
 	return c.conn.SendData(0, leUint64(SimulatedInputs))
 }

@@ -24,57 +24,57 @@ const (
 	FnPlaySound    uint8 = 0
 	FnPlayTone     uint8 = 1
 	FnPlaySequence uint8 = 2
-	FnPlayMp3      uint8 = 3
+	FnPlayMP3      uint8 = 3
 	FnStop         uint8 = 4
 )
 
-// SoundId values (service.json -> "enums").
-type SoundId uint8
+// SoundID is the service.json enum "SoundId".
+type SoundID uint8
 
 const (
-	SoundIdBOOT_PING        SoundId = 0
-	SoundIdBOOT_COMPLETE    SoundId = 1
-	SoundIdSUCCESS          SoundId = 2
-	SoundIdWARNING          SoundId = 3
-	SoundIdERROR            SoundId = 4
-	SoundIdEMERGENCY        SoundId = 5
-	SoundIdLOW_BATTERY      SoundId = 6
-	SoundIdCHARGING_START   SoundId = 7
-	SoundIdCHARGING_DONE    SoundId = 8
-	SoundIdROS_CONNECTED    SoundId = 9
-	SoundIdROS_DISCONNECTED SoundId = 10
-	SoundIdGPS_RTK_FIX      SoundId = 11
-	SoundIdGPS_RTK_LOST     SoundId = 12
+	SoundIDBootPing        SoundID = 0  // BOOT_PING
+	SoundIDBootComplete    SoundID = 1  // BOOT_COMPLETE
+	SoundIDSuccess         SoundID = 2  // SUCCESS
+	SoundIDWarning         SoundID = 3  // WARNING
+	SoundIDError           SoundID = 4  // ERROR
+	SoundIDEmergency       SoundID = 5  // EMERGENCY
+	SoundIDLowBattery      SoundID = 6  // LOW_BATTERY
+	SoundIDChargingStart   SoundID = 7  // CHARGING_START
+	SoundIDChargingDone    SoundID = 8  // CHARGING_DONE
+	SoundIDROSConnected    SoundID = 9  // ROS_CONNECTED
+	SoundIDROSDisconnected SoundID = 10 // ROS_DISCONNECTED
+	SoundIDGPSRTKFix       SoundID = 11 // GPS_RTK_FIX
+	SoundIDGPSRTKLost      SoundID = 12 // GPS_RTK_LOST
 )
 
 // String returns the name of the value.
-func (v SoundId) String() string {
+func (v SoundID) String() string {
 	switch v {
-	case SoundIdBOOT_PING:
+	case SoundIDBootPing:
 		return "boot_ping"
-	case SoundIdBOOT_COMPLETE:
+	case SoundIDBootComplete:
 		return "boot_complete"
-	case SoundIdSUCCESS:
+	case SoundIDSuccess:
 		return "success"
-	case SoundIdWARNING:
+	case SoundIDWarning:
 		return "warning"
-	case SoundIdERROR:
+	case SoundIDError:
 		return "error"
-	case SoundIdEMERGENCY:
+	case SoundIDEmergency:
 		return "emergency"
-	case SoundIdLOW_BATTERY:
+	case SoundIDLowBattery:
 		return "low_battery"
-	case SoundIdCHARGING_START:
+	case SoundIDChargingStart:
 		return "charging_start"
-	case SoundIdCHARGING_DONE:
+	case SoundIDChargingDone:
 		return "charging_done"
-	case SoundIdROS_CONNECTED:
+	case SoundIDROSConnected:
 		return "ros_connected"
-	case SoundIdROS_DISCONNECTED:
+	case SoundIDROSDisconnected:
 		return "ros_disconnected"
-	case SoundIdGPS_RTK_FIX:
+	case SoundIDGPSRTKFix:
 		return "gps_rtk_fix"
-	case SoundIdGPS_RTK_LOST:
+	case SoundIDGPSRTKLost:
 		return "gps_rtk_lost"
 	}
 	return ""
@@ -84,17 +84,17 @@ func (v SoundId) String() string {
 type SoundType uint8
 
 const (
-	SoundTypeTONE     SoundType = 0
-	SoundTypeSEQUENCE SoundType = 1
+	SoundTypeTone     SoundType = 0 // TONE
+	SoundTypeSequence SoundType = 1 // SEQUENCE
 	SoundTypeMP3      SoundType = 2
 )
 
 // String returns the name of the value.
 func (v SoundType) String() string {
 	switch v {
-	case SoundTypeTONE:
+	case SoundTypeTone:
 		return "tone"
-	case SoundTypeSEQUENCE:
+	case SoundTypeSequence:
 		return "sequence"
 	case SoundTypeMP3:
 		return "mp3"
@@ -106,22 +106,22 @@ func (v SoundType) String() string {
 type Waveform uint8
 
 const (
-	WaveformSINE     Waveform = 0
-	WaveformSQUARE   Waveform = 1
-	WaveformTRIANGLE Waveform = 2
-	WaveformSAW      Waveform = 3
+	WaveformSine     Waveform = 0 // SINE
+	WaveformSquare   Waveform = 1 // SQUARE
+	WaveformTriangle Waveform = 2 // TRIANGLE
+	WaveformSaw      Waveform = 3 // SAW
 )
 
 // String returns the name of the value.
 func (v Waveform) String() string {
 	switch v {
-	case WaveformSINE:
+	case WaveformSine:
 		return "sine"
-	case WaveformSQUARE:
+	case WaveformSquare:
 		return "square"
-	case WaveformTRIANGLE:
+	case WaveformTriangle:
 		return "triangle"
-	case WaveformSAW:
+	case WaveformSaw:
 		return "saw"
 	}
 	return ""
@@ -149,7 +149,7 @@ func (c *Client) Close() error { return c.conn.Close() }
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
 // PlaySound calls the RPC function 0.
-func (c *Client) PlaySound(ctx context.Context, Sound SoundId) (uint8, error) {
+func (c *Client) PlaySound(ctx context.Context, Sound SoundID) (uint8, error) {
 	payload, err := c.conn.Call(ctx, FnPlaySound,
 		xbot.Bytes(0, leUint8(uint8(Sound))),
 	)
@@ -201,9 +201,9 @@ func (c *Client) PlaySequence(ctx context.Context, Sequence string, Wave Wavefor
 	return payload[0], nil
 }
 
-// PlayMp3 calls the RPC function 3.
-func (c *Client) PlayMp3(ctx context.Context, Path string, Preempt uint8) (uint8, error) {
-	payload, err := c.conn.Call(ctx, FnPlayMp3,
+// PlayMP3 calls the RPC function 3 ("PlayMp3" in the service.json).
+func (c *Client) PlayMP3(ctx context.Context, Path string, Preempt uint8) (uint8, error) {
+	payload, err := c.conn.Call(ctx, FnPlayMP3,
 		xbot.Bytes(0, charParam(Path, 128)),
 		xbot.Bytes(1, leUint8(Preempt)),
 	)
@@ -211,7 +211,7 @@ func (c *Client) PlayMp3(ctx context.Context, Path string, Preempt uint8) (uint8
 		return 0, err
 	}
 	if len(payload) < 1 {
-		return 0, errf("PlayMp3 returned %d bytes, want 1", len(payload))
+		return 0, errf("PlayMP3 returned %d bytes, want 1", len(payload))
 	}
 	return payload[0], nil
 }
@@ -228,12 +228,12 @@ func (c *Client) Stop(ctx context.Context) (uint8, error) {
 	return payload[0], nil
 }
 
-// SetSoundDefinitions writes the register 0 ("SoundDefinitions") as a configuration transaction.
+// SetSoundDefinitions writes the register 0 ("Sound Definitions" in the service.json) as a configuration transaction.
 func (c *Client) SetSoundDefinitions(SoundDefinitions []byte) error {
 	return c.conn.SendTransaction(true, xbot.Data{ID: 0, Data: SoundDefinitions})
 }
 
-// SendVolume sends the input 0 ("Volume").
+// SendVolume sends the input 0.
 func (c *Client) SendVolume(Volume uint8) error {
 	return c.conn.SendData(0, leUint8(Volume))
 }

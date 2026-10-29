@@ -2,7 +2,7 @@ module github.com/xtech/definitions-open-mower/golang
 
 go 1.23
 
-require github.com/xtech/xbot_framework/xbot_service_interface_go v0.1.0
+require github.com/xtech/xbot_framework/xbot_service_interface_go v0.2.0
 
 require (
 	github.com/fxamacker/cbor/v2 v2.9.3 // indirect
