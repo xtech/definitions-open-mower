@@ -41,6 +41,11 @@ there:
   branch (a protected branch cannot be pushed to by the workflow's token),
 - a **pull request from a fork** (the token is read-only there).
 
+The commit back needs a token that also triggers workflows, otherwise the bot commit
+carries no check runs and a pull request with required status checks waits forever:
+set a fine-grained personal access token (`contents: write`) as the `BOT_TOKEN`
+secret. Without it the workflow falls back to `GITHUB_TOKEN` and warns.
+
 ```bash
 go generate ./...    # uses the xbot_service_interface_go version from go.mod
 ```

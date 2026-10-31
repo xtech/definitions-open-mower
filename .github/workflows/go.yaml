@@ -22,10 +22,14 @@ on:
 permissions:
   contents: read
 
-# Two pushes in quick succession would otherwise race on the same branch.
+# A push to a branch that has an open pull request fires both events, and github.ref
+# differs between them (refs/heads/<branch> vs refs/pull/<n>/merge). Both runs would
+# regenerate and push, so they have to share one group per branch and serialize.
+# cancel-in-progress stays off on purpose: a cancelled run leaves the required `test`
+# check cancelled, which blocks the pull request just like a failure.
 concurrency:
-  group: go-${{ github.ref }}
-  cancel-in-progress: true
+  group: go-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: false
 
 jobs:
   test:
@@ -82,11 +86,23 @@ jobs:
         # runs `go generate` on a possibly forked branch.
         if: steps.regenerate.outputs.committed == 'true'
         env:
+          # A push with GITHUB_TOKEN does not trigger workflow runs, so the regenerated
+          # commit would carry no check runs and a pull request with required status
+          # checks waits for them forever. A fine-grained PAT (contents: write) in
+          # BOT_TOKEN does trigger them: the follow-up run finds nothing left to
+          # regenerate, so the loop stops after that one run.
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: ${{ github.head_ref || github.ref_name }}
         run: |
-          if ! git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${BRANCH}"; then
-            echo "::error::Could not push the regenerated clients to ${BRANCH}. The branch may forbid this token (protected branch) or a concurrent push won the race - push again."
+          if [ -n "${BOT_TOKEN}" ]; then
+            token="${BOT_TOKEN}"
+          else
+            token="${GH_TOKEN}"
+            echo "::warning::BOT_TOKEN is not set, pushing with GITHUB_TOKEN - the regenerated commit will not trigger a workflow run, so required status checks stay pending on the pull request. Add a fine-grained personal access token with contents: write as the BOT_TOKEN secret."
+          fi
+          if ! git push "https://x-access-token:${token}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${BRANCH}"; then
+            echo "::error::Could not push the regenerated clients to ${BRANCH}. The token may lack write access (protected branch) or a concurrent push won the race - push again."
             exit 1
           fi
           echo "::notice::Committed the regenerated Go clients to ${BRANCH}."
