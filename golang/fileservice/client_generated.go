@@ -25,6 +25,7 @@ const (
 	FnFileRemove uint8 = 1
 	FnFileWrite  uint8 = 2
 	FnFileList   uint8 = 3
+	FnFileStats  uint8 = 4
 )
 
 // Client is a client for the FileService service.
@@ -165,6 +166,22 @@ func (c *Client) FileList(ctx context.Context, Path string, StartIndex uint32) (
 	return append([]byte(nil), payload...), nil
 }
 
+// FileStats calls the RPC function 4.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
+func (c *Client) FileStats(ctx context.Context) ([]uint32, error) {
+	if c.sendOnly {
+		return nil, c.conn.SendRPC(FnFileStats)
+	}
+	payload, err := c.conn.Call(ctx, FnFileStats)
+	if err != nil {
+		return nil, err
+	}
+	return readUint32Slice(payload, 4)
+}
+
 // ---- wire helpers ----------------------------------------------------------
 
 func leUint8(v uint8) []byte     { return []byte{v} }
@@ -200,4 +217,33 @@ func charValue(b []byte) string {
 // errf prefixes an error of this client.
 func errf(format string, args ...any) error {
 	return fmt.Errorf("fileservice: "+format, args...)
+}
+
+func padUint32Slice(v []uint32, n int) []uint32 {
+	if n <= 0 || len(v) >= n {
+		return v
+	}
+	out := make([]uint32, n)
+	copy(out, v)
+	return out
+}
+
+func leUint32Slice(v []uint32, n int) []byte {
+	v = padUint32Slice(v, n)
+	b := make([]byte, len(v)*4)
+	for i, x := range v {
+		binary.LittleEndian.PutUint32(b[i*4:], x)
+	}
+	return b
+}
+
+func readUint32Slice(b []byte, n int) ([]uint32, error) {
+	if n <= 0 || len(b) < n*4 {
+		return nil, errf("array of 4 elements: got %d bytes, want %d", len(b), n*4)
+	}
+	out := make([]uint32, n)
+	for i := range out {
+		out[i] = binary.LittleEndian.Uint32(b[i*4:])
+	}
+	return out, nil
 }
