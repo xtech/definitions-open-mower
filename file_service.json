@@ -38,6 +38,12 @@
         { "id": 1, "name": "StartIndex", "type": "uint32_t" }
       ],
       "return_type": "uint8_t[256]"
+    },
+    {
+      "id": 4,
+      "name": "FileStats",
+      "parameters": [],
+      "return_type": "uint32_t[4]"
     }
   ]
 }
