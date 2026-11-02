@@ -32,19 +32,36 @@ const (
 type SoundID uint8
 
 const (
-	SoundIDBootPing        SoundID = 0  // BOOT_PING
-	SoundIDBootComplete    SoundID = 1  // BOOT_COMPLETE
-	SoundIDSuccess         SoundID = 2  // SUCCESS
-	SoundIDWarning         SoundID = 3  // WARNING
-	SoundIDError           SoundID = 4  // ERROR
-	SoundIDEmergency       SoundID = 5  // EMERGENCY
-	SoundIDLowBattery      SoundID = 6  // LOW_BATTERY
-	SoundIDChargingStart   SoundID = 7  // CHARGING_START
-	SoundIDChargingDone    SoundID = 8  // CHARGING_DONE
-	SoundIDROSConnected    SoundID = 9  // ROS_CONNECTED
-	SoundIDROSDisconnected SoundID = 10 // ROS_DISCONNECTED
-	SoundIDGPSRTKFix       SoundID = 11 // GPS_RTK_FIX
-	SoundIDGPSRTKLost      SoundID = 12 // GPS_RTK_LOST
+	SoundIDBootPing           SoundID = 0  // BOOT_PING
+	SoundIDBootComplete       SoundID = 1  // BOOT_COMPLETE
+	SoundIDSuccess            SoundID = 2  // SUCCESS
+	SoundIDWarning            SoundID = 3  // WARNING
+	SoundIDError              SoundID = 4  // ERROR
+	SoundIDEmergency          SoundID = 5  // EMERGENCY
+	SoundIDLowBattery         SoundID = 6  // LOW_BATTERY
+	SoundIDChargingStart      SoundID = 7  // CHARGING_START
+	SoundIDChargingDone       SoundID = 8  // CHARGING_DONE
+	SoundIDROSConnected       SoundID = 9  // ROS_CONNECTED
+	SoundIDROSDisconnected    SoundID = 10 // ROS_DISCONNECTED
+	SoundIDGPSRTKFix          SoundID = 11 // GPS_RTK_FIX
+	SoundIDGPSRTKLost         SoundID = 12 // GPS_RTK_LOST
+	SoundIDShutdownSafe       SoundID = 13 // SHUTDOWN_SAFE
+	SoundIDAutonomousNotice   SoundID = 14 // AUTONOMOUS_NOTICE
+	SoundIDMowingStart        SoundID = 15 // MOWING_START
+	SoundIDMowingPaused       SoundID = 16 // MOWING_PAUSED
+	SoundIDMowingResumed      SoundID = 17 // MOWING_RESUMED
+	SoundIDMowingComplete     SoundID = 18 // MOWING_COMPLETE
+	SoundIDDockingStart       SoundID = 19 // DOCKING_START
+	SoundIDAreaRecordingMode  SoundID = 20 // AREA_RECORDING_MODE
+	SoundIDRainDetected       SoundID = 21 // RAIN_DETECTED
+	SoundIDLiftTriggered      SoundID = 22 // LIFT_TRIGGERED
+	SoundIDCollisionTriggered SoundID = 23 // COLLISION_TRIGGERED
+	SoundIDMowerBlocked       SoundID = 24 // MOWER_BLOCKED
+	SoundIDStopButton         SoundID = 25 // STOP_BUTTON
+	SoundIDEmergencyCleared   SoundID = 26 // EMERGENCY_CLEARED
+	SoundIDVolumeUp           SoundID = 27 // VOLUME_UP
+	SoundIDVolumeDown         SoundID = 28 // VOLUME_DOWN
+	SoundIDRecovered          SoundID = 29 // RECOVERED
 )
 
 // String returns the name of the value.
@@ -76,6 +93,40 @@ func (v SoundID) String() string {
 		return "gps_rtk_fix"
 	case SoundIDGPSRTKLost:
 		return "gps_rtk_lost"
+	case SoundIDShutdownSafe:
+		return "shutdown_safe"
+	case SoundIDAutonomousNotice:
+		return "autonomous_notice"
+	case SoundIDMowingStart:
+		return "mowing_start"
+	case SoundIDMowingPaused:
+		return "mowing_paused"
+	case SoundIDMowingResumed:
+		return "mowing_resumed"
+	case SoundIDMowingComplete:
+		return "mowing_complete"
+	case SoundIDDockingStart:
+		return "docking_start"
+	case SoundIDAreaRecordingMode:
+		return "area_recording_mode"
+	case SoundIDRainDetected:
+		return "rain_detected"
+	case SoundIDLiftTriggered:
+		return "lift_triggered"
+	case SoundIDCollisionTriggered:
+		return "collision_triggered"
+	case SoundIDMowerBlocked:
+		return "mower_blocked"
+	case SoundIDStopButton:
+		return "stop_button"
+	case SoundIDEmergencyCleared:
+		return "emergency_cleared"
+	case SoundIDVolumeUp:
+		return "volume_up"
+	case SoundIDVolumeDown:
+		return "volume_down"
+	case SoundIDRecovered:
+		return "recovered"
 	}
 	return ""
 }

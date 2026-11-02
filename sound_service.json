@@ -19,7 +19,24 @@
         "ROS_CONNECTED": 9,
         "ROS_DISCONNECTED": 10,
         "GPS_RTK_FIX": 11,
-        "GPS_RTK_LOST": 12
+        "GPS_RTK_LOST": 12,
+        "SHUTDOWN_SAFE": 13,
+        "AUTONOMOUS_NOTICE": 14,
+        "MOWING_START": 15,
+        "MOWING_PAUSED": 16,
+        "MOWING_RESUMED": 17,
+        "MOWING_COMPLETE": 18,
+        "DOCKING_START": 19,
+        "AREA_RECORDING_MODE": 20,
+        "RAIN_DETECTED": 21,
+        "LIFT_TRIGGERED": 22,
+        "COLLISION_TRIGGERED": 23,
+        "MOWER_BLOCKED": 24,
+        "STOP_BUTTON": 25,
+        "EMERGENCY_CLEARED": 26,
+        "VOLUME_UP": 27,
+        "VOLUME_DOWN": 28,
+        "RECOVERED": 29
       }
     },
     {
