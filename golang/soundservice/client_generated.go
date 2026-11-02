@@ -38,29 +38,29 @@ const (
 	SoundIDWarning            SoundID = 3  // WARNING
 	SoundIDError              SoundID = 4  // ERROR
 	SoundIDEmergency          SoundID = 5  // EMERGENCY
-	SoundIDLowBattery         SoundID = 6  // LOW_BATTERY
-	SoundIDChargingStart      SoundID = 7  // CHARGING_START
-	SoundIDChargingDone       SoundID = 8  // CHARGING_DONE
-	SoundIDROSConnected       SoundID = 9  // ROS_CONNECTED
-	SoundIDROSDisconnected    SoundID = 10 // ROS_DISCONNECTED
-	SoundIDGPSRTKFix          SoundID = 11 // GPS_RTK_FIX
-	SoundIDGPSRTKLost         SoundID = 12 // GPS_RTK_LOST
-	SoundIDShutdownSafe       SoundID = 13 // SHUTDOWN_SAFE
-	SoundIDAutonomousNotice   SoundID = 14 // AUTONOMOUS_NOTICE
-	SoundIDMowingStart        SoundID = 15 // MOWING_START
-	SoundIDMowingPaused       SoundID = 16 // MOWING_PAUSED
-	SoundIDMowingResumed      SoundID = 17 // MOWING_RESUMED
-	SoundIDMowingComplete     SoundID = 18 // MOWING_COMPLETE
-	SoundIDDockingStart       SoundID = 19 // DOCKING_START
-	SoundIDAreaRecordingMode  SoundID = 20 // AREA_RECORDING_MODE
-	SoundIDRainDetected       SoundID = 21 // RAIN_DETECTED
-	SoundIDLiftTriggered      SoundID = 22 // LIFT_TRIGGERED
-	SoundIDCollisionTriggered SoundID = 23 // COLLISION_TRIGGERED
-	SoundIDMowerBlocked       SoundID = 24 // MOWER_BLOCKED
-	SoundIDStopButton         SoundID = 25 // STOP_BUTTON
-	SoundIDEmergencyCleared   SoundID = 26 // EMERGENCY_CLEARED
-	SoundIDVolumeUp           SoundID = 27 // VOLUME_UP
-	SoundIDVolumeDown         SoundID = 28 // VOLUME_DOWN
+	SoundIDEmergencyCleared   SoundID = 6  // EMERGENCY_CLEARED
+	SoundIDROSConnected       SoundID = 7  // ROS_CONNECTED
+	SoundIDROSDisconnected    SoundID = 8  // ROS_DISCONNECTED
+	SoundIDGPSRTKFix          SoundID = 9  // GPS_RTK_FIX
+	SoundIDGPSRTKLost         SoundID = 10 // GPS_RTK_LOST
+	SoundIDAutonomousNotice   SoundID = 11 // AUTONOMOUS_NOTICE
+	SoundIDVolumeUp           SoundID = 12 // VOLUME_UP
+	SoundIDVolumeDown         SoundID = 13 // VOLUME_DOWN
+	SoundIDLowBattery         SoundID = 14 // LOW_BATTERY
+	SoundIDChargingStart      SoundID = 15 // CHARGING_START
+	SoundIDChargingDone       SoundID = 16 // CHARGING_DONE
+	SoundIDShutdownSafe       SoundID = 17 // SHUTDOWN_SAFE
+	SoundIDMowingStart        SoundID = 18 // MOWING_START
+	SoundIDMowingPaused       SoundID = 19 // MOWING_PAUSED
+	SoundIDMowingResumed      SoundID = 20 // MOWING_RESUMED
+	SoundIDMowingComplete     SoundID = 21 // MOWING_COMPLETE
+	SoundIDDockingStart       SoundID = 22 // DOCKING_START
+	SoundIDAreaRecordingMode  SoundID = 23 // AREA_RECORDING_MODE
+	SoundIDRainDetected       SoundID = 24 // RAIN_DETECTED
+	SoundIDLiftTriggered      SoundID = 25 // LIFT_TRIGGERED
+	SoundIDCollisionTriggered SoundID = 26 // COLLISION_TRIGGERED
+	SoundIDMowerBlocked       SoundID = 27 // MOWER_BLOCKED
+	SoundIDStopButton         SoundID = 28 // STOP_BUTTON
 	SoundIDRecovered          SoundID = 29 // RECOVERED
 )
 
@@ -79,12 +79,8 @@ func (v SoundID) String() string {
 		return "error"
 	case SoundIDEmergency:
 		return "emergency"
-	case SoundIDLowBattery:
-		return "low_battery"
-	case SoundIDChargingStart:
-		return "charging_start"
-	case SoundIDChargingDone:
-		return "charging_done"
+	case SoundIDEmergencyCleared:
+		return "emergency_cleared"
 	case SoundIDROSConnected:
 		return "ros_connected"
 	case SoundIDROSDisconnected:
@@ -93,10 +89,20 @@ func (v SoundID) String() string {
 		return "gps_rtk_fix"
 	case SoundIDGPSRTKLost:
 		return "gps_rtk_lost"
-	case SoundIDShutdownSafe:
-		return "shutdown_safe"
 	case SoundIDAutonomousNotice:
 		return "autonomous_notice"
+	case SoundIDVolumeUp:
+		return "volume_up"
+	case SoundIDVolumeDown:
+		return "volume_down"
+	case SoundIDLowBattery:
+		return "low_battery"
+	case SoundIDChargingStart:
+		return "charging_start"
+	case SoundIDChargingDone:
+		return "charging_done"
+	case SoundIDShutdownSafe:
+		return "shutdown_safe"
 	case SoundIDMowingStart:
 		return "mowing_start"
 	case SoundIDMowingPaused:
@@ -119,12 +125,6 @@ func (v SoundID) String() string {
 		return "mower_blocked"
 	case SoundIDStopButton:
 		return "stop_button"
-	case SoundIDEmergencyCleared:
-		return "emergency_cleared"
-	case SoundIDVolumeUp:
-		return "volume_up"
-	case SoundIDVolumeDown:
-		return "volume_down"
 	case SoundIDRecovered:
 		return "recovered"
 	}
