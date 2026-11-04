@@ -29,14 +29,15 @@
         "MOWING_PAUSED": 19,
         "MOWING_RESUMED": 20,
         "MOWING_COMPLETE": 21,
-        "DOCKING_START": 22,
-        "AREA_RECORDING_MODE": 23,
-        "RAIN_DETECTED": 24,
-        "LIFT_TRIGGERED": 25,
-        "COLLISION_TRIGGERED": 26,
-        "MOWER_BLOCKED": 27,
-        "STOP_BUTTON": 28,
-        "RECOVERED": 29
+        "MOWING_AMBIENCE": 22,
+        "DOCKING_START": 23,
+        "AREA_RECORDING_MODE": 24,
+        "RAIN_DETECTED": 25,
+        "LIFT_TRIGGERED": 26,
+        "COLLISION_TRIGGERED": 27,
+        "MOWER_BLOCKED": 28,
+        "STOP_BUTTON": 29,
+        "RECOVERED": 30
       }
     },
     {

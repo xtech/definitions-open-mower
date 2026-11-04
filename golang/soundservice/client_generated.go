@@ -54,14 +54,15 @@ const (
 	SoundIDMowingPaused       SoundID = 19 // MOWING_PAUSED
 	SoundIDMowingResumed      SoundID = 20 // MOWING_RESUMED
 	SoundIDMowingComplete     SoundID = 21 // MOWING_COMPLETE
-	SoundIDDockingStart       SoundID = 22 // DOCKING_START
-	SoundIDAreaRecordingMode  SoundID = 23 // AREA_RECORDING_MODE
-	SoundIDRainDetected       SoundID = 24 // RAIN_DETECTED
-	SoundIDLiftTriggered      SoundID = 25 // LIFT_TRIGGERED
-	SoundIDCollisionTriggered SoundID = 26 // COLLISION_TRIGGERED
-	SoundIDMowerBlocked       SoundID = 27 // MOWER_BLOCKED
-	SoundIDStopButton         SoundID = 28 // STOP_BUTTON
-	SoundIDRecovered          SoundID = 29 // RECOVERED
+	SoundIDMowingAmbience     SoundID = 22 // MOWING_AMBIENCE
+	SoundIDDockingStart       SoundID = 23 // DOCKING_START
+	SoundIDAreaRecordingMode  SoundID = 24 // AREA_RECORDING_MODE
+	SoundIDRainDetected       SoundID = 25 // RAIN_DETECTED
+	SoundIDLiftTriggered      SoundID = 26 // LIFT_TRIGGERED
+	SoundIDCollisionTriggered SoundID = 27 // COLLISION_TRIGGERED
+	SoundIDMowerBlocked       SoundID = 28 // MOWER_BLOCKED
+	SoundIDStopButton         SoundID = 29 // STOP_BUTTON
+	SoundIDRecovered          SoundID = 30 // RECOVERED
 )
 
 // String returns the name of the value.
@@ -111,6 +112,8 @@ func (v SoundID) String() string {
 		return "mowing_resumed"
 	case SoundIDMowingComplete:
 		return "mowing_complete"
+	case SoundIDMowingAmbience:
+		return "mowing_ambience"
 	case SoundIDDockingStart:
 		return "docking_start"
 	case SoundIDAreaRecordingMode:
