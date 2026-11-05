@@ -34,10 +34,11 @@
         "AREA_RECORDING_MODE": 24,
         "RAIN_DETECTED": 25,
         "LIFT_TRIGGERED": 26,
-        "COLLISION_TRIGGERED": 27,
-        "MOWER_BLOCKED": 28,
-        "STOP_BUTTON": 29,
-        "RECOVERED": 30
+        "STOP_BUTTON": 27,
+        "COLLISION_TRIGGERED": 28,
+        "MOWER_RPM_TIMEOUT": 29,
+        "MOWER_RPM_LIMIT": 30,
+        "RECOVERED": 31
       }
     },
     {

@@ -59,10 +59,11 @@ const (
 	SoundIDAreaRecordingMode  SoundID = 24 // AREA_RECORDING_MODE
 	SoundIDRainDetected       SoundID = 25 // RAIN_DETECTED
 	SoundIDLiftTriggered      SoundID = 26 // LIFT_TRIGGERED
-	SoundIDCollisionTriggered SoundID = 27 // COLLISION_TRIGGERED
-	SoundIDMowerBlocked       SoundID = 28 // MOWER_BLOCKED
-	SoundIDStopButton         SoundID = 29 // STOP_BUTTON
-	SoundIDRecovered          SoundID = 30 // RECOVERED
+	SoundIDStopButton         SoundID = 27 // STOP_BUTTON
+	SoundIDCollisionTriggered SoundID = 28 // COLLISION_TRIGGERED
+	SoundIDMowerRpmTimeout    SoundID = 29 // MOWER_RPM_TIMEOUT
+	SoundIDMowerRpmLimit      SoundID = 30 // MOWER_RPM_LIMIT
+	SoundIDRecovered          SoundID = 31 // RECOVERED
 )
 
 // String returns the name of the value.
@@ -122,12 +123,14 @@ func (v SoundID) String() string {
 		return "rain_detected"
 	case SoundIDLiftTriggered:
 		return "lift_triggered"
-	case SoundIDCollisionTriggered:
-		return "collision_triggered"
-	case SoundIDMowerBlocked:
-		return "mower_blocked"
 	case SoundIDStopButton:
 		return "stop_button"
+	case SoundIDCollisionTriggered:
+		return "collision_triggered"
+	case SoundIDMowerRpmTimeout:
+		return "mower_rpm_timeout"
+	case SoundIDMowerRpmLimit:
+		return "mower_rpm_limit"
 	case SoundIDRecovered:
 		return "recovered"
 	}
