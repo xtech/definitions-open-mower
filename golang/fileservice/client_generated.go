@@ -170,6 +170,46 @@ func (c *Client) FileStats(ctx context.Context) ([]uint32, error) {
 	return readUint32Slice(payload, 4)
 }
 
+// MaxFileExistsPath is the largest Path payload one FileExists call can carry.
+//
+// One packet of RPC body minus the framing of the call: a descriptor per
+// parameter and the payloads of the fixed parameters.
+func MaxFileExistsPath() int {
+	return xbot.MaxPacketSize - xbot.HeaderSize - 2*xbot.DescriptorSize - 4
+}
+
+// MaxFileRemovePath is the largest Path payload one FileRemove call can carry.
+//
+// One packet of RPC body minus the framing of the call: a descriptor per
+// parameter and the payloads of the fixed parameters.
+func MaxFileRemovePath() int {
+	return xbot.MaxPacketSize - xbot.HeaderSize - 1*xbot.DescriptorSize
+}
+
+// MaxFileWritePath is the largest Path payload one FileWrite call can carry.
+//
+// One packet of RPC body minus the framing of the call: a descriptor per
+// parameter and the payloads of the fixed parameters.
+func MaxFileWritePath(Data []byte) int {
+	return xbot.MaxPacketSize - xbot.HeaderSize - 4*xbot.DescriptorSize - 8 - len(Data)
+}
+
+// MaxFileWriteData is the largest Data payload one FileWrite call can carry.
+//
+// One packet of RPC body minus the framing of the call: a descriptor per
+// parameter and the payloads of the fixed parameters.
+func MaxFileWriteData(Path []byte) int {
+	return xbot.MaxPacketSize - xbot.HeaderSize - 4*xbot.DescriptorSize - 8 - len(Path)
+}
+
+// MaxFileListPath is the largest Path payload one FileList call can carry.
+//
+// One packet of RPC body minus the framing of the call: a descriptor per
+// parameter and the payloads of the fixed parameters.
+func MaxFileListPath() int {
+	return xbot.MaxPacketSize - xbot.HeaderSize - 2*xbot.DescriptorSize - 4
+}
+
 // ---- wire helpers ----------------------------------------------------------
 
 func leUint8(v uint8) []byte     { return []byte{v} }
