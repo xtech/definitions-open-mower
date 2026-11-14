@@ -4,7 +4,7 @@
 //
 //	xbot-codegen -service <service.json> [-service-id <id>] -out <file>.go
 
-// Package fileservice is a client for the FileService service (service.json version 1).
+// Package fileservice is a client for the FileService service (service.json version 2).
 package fileservice
 
 import (
@@ -41,7 +41,7 @@ type Client struct {
 func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
 	opts.ServiceID = ServiceID
 	opts.ExpectType = "FileService"
-	opts.ExpectVersion = 1
+	opts.ExpectVersion = 2
 	conn, err := xbot.Dial(ctx, opts)
 	if err != nil {
 		return nil, err
@@ -60,18 +60,15 @@ func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 // It only waits for the answer when this client owns the service. Without a claim
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
-func (c *Client) FileExists(ctx context.Context, Path string, Hash uint32) (uint8, error) {
-	if len(Path) >= 128 { // char[128] includes the NUL
-		return 0, errf("Path too long (%d bytes, max %d)", len(Path), 127)
-	}
+func (c *Client) FileExists(ctx context.Context, Path []byte, Hash uint32) (uint8, error) {
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnFileExists,
-			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.Bytes(0, Path),
 			xbot.Bytes(1, leUint32(Hash)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileExists,
-		xbot.Bytes(0, charParam(Path, 128)),
+		xbot.Bytes(0, Path),
 		xbot.Bytes(1, leUint32(Hash)),
 	)
 	if err != nil {
@@ -88,17 +85,14 @@ func (c *Client) FileExists(ctx context.Context, Path string, Hash uint32) (uint
 // It only waits for the answer when this client owns the service. Without a claim
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
-func (c *Client) FileRemove(ctx context.Context, Path string) (uint8, error) {
-	if len(Path) >= 128 { // char[128] includes the NUL
-		return 0, errf("Path too long (%d bytes, max %d)", len(Path), 127)
-	}
+func (c *Client) FileRemove(ctx context.Context, Path []byte) (uint8, error) {
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnFileRemove,
-			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.Bytes(0, Path),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileRemove,
-		xbot.Bytes(0, charParam(Path, 128)),
+		xbot.Bytes(0, Path),
 	)
 	if err != nil {
 		return 0, err
@@ -114,22 +108,19 @@ func (c *Client) FileRemove(ctx context.Context, Path string) (uint8, error) {
 // It only waits for the answer when this client owns the service. Without a claim
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
-func (c *Client) FileWrite(ctx context.Context, Path string, Offset uint32, Data []byte, Hash uint32) (int32, error) {
-	if len(Path) >= 128 { // char[128] includes the NUL
-		return 0, errf("Path too long (%d bytes, max %d)", len(Path), 127)
-	}
+func (c *Client) FileWrite(ctx context.Context, Path []byte, Offset uint32, Data []byte, Hash uint32) (int32, error) {
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnFileWrite,
-			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.Bytes(0, Path),
 			xbot.Bytes(1, leUint32(Offset)),
-			xbot.Bytes(2, byteParam(Data, 256)),
+			xbot.Bytes(2, Data),
 			xbot.Bytes(3, leUint32(Hash)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileWrite,
-		xbot.Bytes(0, charParam(Path, 128)),
+		xbot.Bytes(0, Path),
 		xbot.Bytes(1, leUint32(Offset)),
-		xbot.Bytes(2, byteParam(Data, 256)),
+		xbot.Bytes(2, Data),
 		xbot.Bytes(3, leUint32(Hash)),
 	)
 	if err != nil {
@@ -146,18 +137,15 @@ func (c *Client) FileWrite(ctx context.Context, Path string, Offset uint32, Data
 // It only waits for the answer when this client owns the service. Without a claim
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
-func (c *Client) FileList(ctx context.Context, Path string, StartIndex uint32) ([]byte, error) {
-	if len(Path) >= 128 { // char[128] includes the NUL
-		return nil, errf("Path too long (%d bytes, max %d)", len(Path), 127)
-	}
+func (c *Client) FileList(ctx context.Context, Path []byte, StartIndex uint32) ([]byte, error) {
 	if c.sendOnly {
 		return nil, c.conn.SendRPC(FnFileList,
-			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.Bytes(0, Path),
 			xbot.Bytes(1, leUint32(StartIndex)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileList,
-		xbot.Bytes(0, charParam(Path, 128)),
+		xbot.Bytes(0, Path),
 		xbot.Bytes(1, leUint32(StartIndex)),
 	)
 	if err != nil {

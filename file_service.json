@@ -1,12 +1,12 @@
 {
   "type": "FileService",
-  "version": 1,
+  "version": 2,
   "functions": [
     {
       "id": 0,
       "name": "FileExists",
       "parameters": [
-        { "id": 0, "name": "Path", "type": "char[128]" },
+        { "id": 0, "name": "Path", "type": "blob" },
         { "id": 1, "name": "Hash", "type": "uint32_t" }
       ],
       "return_type": "uint8_t"
@@ -15,7 +15,7 @@
       "id": 1,
       "name": "FileRemove",
       "parameters": [
-        { "id": 0, "name": "Path", "type": "char[128]" }
+        { "id": 0, "name": "Path", "type": "blob" }
       ],
       "return_type": "uint8_t"
     },
@@ -23,9 +23,9 @@
       "id": 2,
       "name": "FileWrite",
       "parameters": [
-        { "id": 0, "name": "Path", "type": "char[128]" },
+        { "id": 0, "name": "Path", "type": "blob" },
         { "id": 1, "name": "Offset", "type": "uint32_t" },
-        { "id": 2, "name": "Data", "type": "uint8_t[256]" },
+        { "id": 2, "name": "Data", "type": "blob" },
         { "id": 3, "name": "Hash", "type": "uint32_t" }
       ],
       "return_type": "int32_t"
@@ -34,10 +34,10 @@
       "id": 3,
       "name": "FileList",
       "parameters": [
-        { "id": 0, "name": "Path", "type": "char[128]" },
+        { "id": 0, "name": "Path", "type": "blob" },
         { "id": 1, "name": "StartIndex", "type": "uint32_t" }
       ],
-      "return_type": "uint8_t[256]"
+      "return_type": "blob"
     },
     {
       "id": 4,
