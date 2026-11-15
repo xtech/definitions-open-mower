@@ -173,41 +173,46 @@ func (c *Client) FileStats(ctx context.Context) ([]uint32, error) {
 // MaxFileExistsPath is the largest Path payload one FileExists call can carry.
 //
 // One packet of RPC body minus the framing of the call: a descriptor per
-// parameter and the payloads of the fixed parameters.
+// parameter and the payloads of the fixed parameters. A call whose parameters
+// already use up the packet reports 0, never a negative budget.
 func MaxFileExistsPath() int {
-	return xbot.MaxPacketSize - xbot.HeaderSize - 2*xbot.DescriptorSize - 4
+	return max(0, xbot.MaxPacketSize-xbot.HeaderSize-2*xbot.DescriptorSize-4)
 }
 
 // MaxFileRemovePath is the largest Path payload one FileRemove call can carry.
 //
 // One packet of RPC body minus the framing of the call: a descriptor per
-// parameter and the payloads of the fixed parameters.
+// parameter and the payloads of the fixed parameters. A call whose parameters
+// already use up the packet reports 0, never a negative budget.
 func MaxFileRemovePath() int {
-	return xbot.MaxPacketSize - xbot.HeaderSize - 1*xbot.DescriptorSize
+	return max(0, xbot.MaxPacketSize-xbot.HeaderSize-1*xbot.DescriptorSize)
 }
 
 // MaxFileWritePath is the largest Path payload one FileWrite call can carry.
 //
 // One packet of RPC body minus the framing of the call: a descriptor per
-// parameter and the payloads of the fixed parameters.
+// parameter and the payloads of the fixed parameters. A call whose parameters
+// already use up the packet reports 0, never a negative budget.
 func MaxFileWritePath(Data []byte) int {
-	return xbot.MaxPacketSize - xbot.HeaderSize - 4*xbot.DescriptorSize - 8 - len(Data)
+	return max(0, xbot.MaxPacketSize-xbot.HeaderSize-4*xbot.DescriptorSize-8-len(Data))
 }
 
 // MaxFileWriteData is the largest Data payload one FileWrite call can carry.
 //
 // One packet of RPC body minus the framing of the call: a descriptor per
-// parameter and the payloads of the fixed parameters.
+// parameter and the payloads of the fixed parameters. A call whose parameters
+// already use up the packet reports 0, never a negative budget.
 func MaxFileWriteData(Path []byte) int {
-	return xbot.MaxPacketSize - xbot.HeaderSize - 4*xbot.DescriptorSize - 8 - len(Path)
+	return max(0, xbot.MaxPacketSize-xbot.HeaderSize-4*xbot.DescriptorSize-8-len(Path))
 }
 
 // MaxFileListPath is the largest Path payload one FileList call can carry.
 //
 // One packet of RPC body minus the framing of the call: a descriptor per
-// parameter and the payloads of the fixed parameters.
+// parameter and the payloads of the fixed parameters. A call whose parameters
+// already use up the packet reports 0, never a negative budget.
 func MaxFileListPath() int {
-	return xbot.MaxPacketSize - xbot.HeaderSize - 2*xbot.DescriptorSize - 4
+	return max(0, xbot.MaxPacketSize-xbot.HeaderSize-2*xbot.DescriptorSize-4)
 }
 
 // ---- wire helpers ----------------------------------------------------------
