@@ -1,6 +1,6 @@
 {
   "type": "SoundService",
-  "version": 1,
+  "version": 2,
   "enums": [
     {
       "id": "SoundId",
@@ -117,7 +117,7 @@
         {
           "id": 0,
           "name": "Sequence",
-          "type": "char[160]"
+          "type": "blob"
         },
         {
           "id": 1,
@@ -169,7 +169,7 @@
         {
           "id": 0,
           "name": "Path",
-          "type": "char[128]"
+          "type": "blob"
         },
         {
           "id": 1,

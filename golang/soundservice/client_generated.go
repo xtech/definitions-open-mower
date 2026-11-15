@@ -4,7 +4,7 @@
 //
 //	xbot-codegen -service <service.json> [-service-id <id>] -out <file>.go
 
-// Package soundservice is a client for the SoundService service (service.json version 1).
+// Package soundservice is a client for the SoundService service (service.json version 2).
 package soundservice
 
 import (
@@ -197,7 +197,7 @@ type Client struct {
 func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
 	opts.ServiceID = ServiceID
 	opts.ExpectType = "SoundService"
-	opts.ExpectVersion = 1
+	opts.ExpectVersion = 2
 	conn, err := xbot.Dial(ctx, opts)
 	if err != nil {
 		return nil, err
@@ -268,13 +268,10 @@ func (c *Client) PlayTone(ctx context.Context, Freq uint16, DurationMs uint16, V
 // It only waits for the answer when this client owns the service. Without a claim
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
-func (c *Client) PlaySequence(ctx context.Context, Sequence string, Wave Waveform, Volume uint8, Unison uint8, DetuneHz uint16, AttackMs uint8, DecayMs uint8, Preempt uint8, RepeatMs uint16) (uint8, error) {
-	if len(Sequence) >= 160 { // char[160] includes the NUL
-		return 0, errf("Sequence too long (%d bytes, max %d)", len(Sequence), 159)
-	}
+func (c *Client) PlaySequence(ctx context.Context, Sequence []byte, Wave Waveform, Volume uint8, Unison uint8, DetuneHz uint16, AttackMs uint8, DecayMs uint8, Preempt uint8, RepeatMs uint16) (uint8, error) {
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnPlaySequence,
-			xbot.Bytes(0, charParam(Sequence, 160)),
+			xbot.Bytes(0, Sequence),
 			xbot.Bytes(1, leUint8(uint8(Wave))),
 			xbot.Bytes(2, leUint8(Volume)),
 			xbot.Bytes(3, leUint8(Unison)),
@@ -286,7 +283,7 @@ func (c *Client) PlaySequence(ctx context.Context, Sequence string, Wave Wavefor
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnPlaySequence,
-		xbot.Bytes(0, charParam(Sequence, 160)),
+		xbot.Bytes(0, Sequence),
 		xbot.Bytes(1, leUint8(uint8(Wave))),
 		xbot.Bytes(2, leUint8(Volume)),
 		xbot.Bytes(3, leUint8(Unison)),
@@ -310,18 +307,15 @@ func (c *Client) PlaySequence(ctx context.Context, Sequence string, Wave Wavefor
 // It only waits for the answer when this client owns the service. Without a claim
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
-func (c *Client) PlayMP3(ctx context.Context, Path string, Preempt uint8) (uint8, error) {
-	if len(Path) >= 128 { // char[128] includes the NUL
-		return 0, errf("Path too long (%d bytes, max %d)", len(Path), 127)
-	}
+func (c *Client) PlayMP3(ctx context.Context, Path []byte, Preempt uint8) (uint8, error) {
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnPlayMP3,
-			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.Bytes(0, Path),
 			xbot.Bytes(1, leUint8(Preempt)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnPlayMP3,
-		xbot.Bytes(0, charParam(Path, 128)),
+		xbot.Bytes(0, Path),
 		xbot.Bytes(1, leUint8(Preempt)),
 	)
 	if err != nil {
@@ -350,6 +344,24 @@ func (c *Client) Stop(ctx context.Context) (uint8, error) {
 		return 0, errf("Stop returned %d bytes, want 1", len(payload))
 	}
 	return payload[0], nil
+}
+
+// MaxPlaySequenceSequence is the largest Sequence payload one PlaySequence call can carry.
+//
+// One packet of RPC body minus the framing of the call: a descriptor per
+// parameter and the payloads of the fixed parameters. A call whose parameters
+// already use up the packet reports 0, never a negative budget.
+func MaxPlaySequenceSequence() int {
+	return max(0, xbot.MaxPacketSize-xbot.HeaderSize-9*xbot.DescriptorSize-10)
+}
+
+// MaxPlayMP3Path is the largest Path payload one PlayMP3 call can carry.
+//
+// One packet of RPC body minus the framing of the call: a descriptor per
+// parameter and the payloads of the fixed parameters. A call whose parameters
+// already use up the packet reports 0, never a negative budget.
+func MaxPlayMP3Path() int {
+	return max(0, xbot.MaxPacketSize-xbot.HeaderSize-2*xbot.DescriptorSize-1)
 }
 
 // SetSoundDefinitions writes the register 0 ("Sound Definitions" in the service.json) as a configuration transaction.
