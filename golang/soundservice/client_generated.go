@@ -373,9 +373,12 @@ func (c *Client) SetSoundDefinitions(SoundDefinitions []byte) error {
 }
 
 // SendVolume sends the input 0.
-func (c *Client) SendVolume(Volume uint8) error {
-	return c.conn.SendData(0, leUint8(Volume))
+func (c *Client) SendVolume(Volume int8) error {
+	return c.conn.SendData(0, leInt8(Volume))
 }
+
+// The service has 1 outputs; receiving them needs a receive loop in
+// xbot.Conn, which this client does not have yet.
 
 // ---- wire helpers ----------------------------------------------------------
 
