@@ -169,7 +169,8 @@
         {
           "id": 0,
           "name": "Path",
-          "type": "blob"
+          "type": "string",
+          "max_length": 64
         },
         {
           "id": 1,

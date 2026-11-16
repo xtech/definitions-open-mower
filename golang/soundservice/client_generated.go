@@ -307,15 +307,18 @@ func (c *Client) PlaySequence(ctx context.Context, Sequence []byte, Wave Wavefor
 // It only waits for the answer when this client owns the service. Without a claim
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
-func (c *Client) PlayMP3(ctx context.Context, Path []byte, Preempt uint8) (uint8, error) {
+func (c *Client) PlayMP3(ctx context.Context, Path string, Preempt uint8) (uint8, error) {
+	if len(Path) > 64 { // string, max_length 64
+		return 0, errf("Path too long (%d bytes, max 64)", len(Path))
+	}
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnPlayMP3,
-			xbot.Bytes(0, Path),
+			xbot.Bytes(0, []byte(Path)),
 			xbot.Bytes(1, leUint8(Preempt)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnPlayMP3,
-		xbot.Bytes(0, Path),
+		xbot.Bytes(0, []byte(Path)),
 		xbot.Bytes(1, leUint8(Preempt)),
 	)
 	if err != nil {

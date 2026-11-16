@@ -60,15 +60,18 @@ func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 // It only waits for the answer when this client owns the service. Without a claim
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
-func (c *Client) FileExists(ctx context.Context, Path []byte, Hash uint32) (uint8, error) {
+func (c *Client) FileExists(ctx context.Context, Path string, Hash uint32) (uint8, error) {
+	if len(Path) > 128 { // string, max_length 128
+		return 0, errf("Path too long (%d bytes, max 128)", len(Path))
+	}
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnFileExists,
-			xbot.Bytes(0, Path),
+			xbot.Bytes(0, []byte(Path)),
 			xbot.Bytes(1, leUint32(Hash)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileExists,
-		xbot.Bytes(0, Path),
+		xbot.Bytes(0, []byte(Path)),
 		xbot.Bytes(1, leUint32(Hash)),
 	)
 	if err != nil {
@@ -85,14 +88,17 @@ func (c *Client) FileExists(ctx context.Context, Path []byte, Hash uint32) (uint
 // It only waits for the answer when this client owns the service. Without a claim
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
-func (c *Client) FileRemove(ctx context.Context, Path []byte) (uint8, error) {
+func (c *Client) FileRemove(ctx context.Context, Path string) (uint8, error) {
+	if len(Path) > 128 { // string, max_length 128
+		return 0, errf("Path too long (%d bytes, max 128)", len(Path))
+	}
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnFileRemove,
-			xbot.Bytes(0, Path),
+			xbot.Bytes(0, []byte(Path)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileRemove,
-		xbot.Bytes(0, Path),
+		xbot.Bytes(0, []byte(Path)),
 	)
 	if err != nil {
 		return 0, err
@@ -108,17 +114,20 @@ func (c *Client) FileRemove(ctx context.Context, Path []byte) (uint8, error) {
 // It only waits for the answer when this client owns the service. Without a claim
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
-func (c *Client) FileWrite(ctx context.Context, Path []byte, Offset uint32, Data []byte, Hash uint32) (int32, error) {
+func (c *Client) FileWrite(ctx context.Context, Path string, Offset uint32, Data []byte, Hash uint32) (int32, error) {
+	if len(Path) > 128 { // string, max_length 128
+		return 0, errf("Path too long (%d bytes, max 128)", len(Path))
+	}
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnFileWrite,
-			xbot.Bytes(0, Path),
+			xbot.Bytes(0, []byte(Path)),
 			xbot.Bytes(1, leUint32(Offset)),
 			xbot.Bytes(2, Data),
 			xbot.Bytes(3, leUint32(Hash)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileWrite,
-		xbot.Bytes(0, Path),
+		xbot.Bytes(0, []byte(Path)),
 		xbot.Bytes(1, leUint32(Offset)),
 		xbot.Bytes(2, Data),
 		xbot.Bytes(3, leUint32(Hash)),
@@ -137,15 +146,18 @@ func (c *Client) FileWrite(ctx context.Context, Path []byte, Offset uint32, Data
 // It only waits for the answer when this client owns the service. Without a claim
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
-func (c *Client) FileList(ctx context.Context, Path []byte, StartIndex uint32) ([]byte, error) {
+func (c *Client) FileList(ctx context.Context, Path string, StartIndex uint32) ([]byte, error) {
+	if len(Path) > 128 { // string, max_length 128
+		return nil, errf("Path too long (%d bytes, max 128)", len(Path))
+	}
 	if c.sendOnly {
 		return nil, c.conn.SendRPC(FnFileList,
-			xbot.Bytes(0, Path),
+			xbot.Bytes(0, []byte(Path)),
 			xbot.Bytes(1, leUint32(StartIndex)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileList,
-		xbot.Bytes(0, Path),
+		xbot.Bytes(0, []byte(Path)),
 		xbot.Bytes(1, leUint32(StartIndex)),
 	)
 	if err != nil {
@@ -202,7 +214,7 @@ func MaxFileWritePath(Data []byte) int {
 // One packet of RPC body minus the framing of the call: a descriptor per
 // parameter and the payloads of the fixed parameters. A call whose parameters
 // already use up the packet reports 0, never a negative budget.
-func MaxFileWriteData(Path []byte) int {
+func MaxFileWriteData(Path string) int {
 	return max(0, xbot.MaxPacketSize-xbot.HeaderSize-4*xbot.DescriptorSize-8-len(Path))
 }
 

@@ -6,7 +6,7 @@
       "id": 0,
       "name": "FileExists",
       "parameters": [
-        { "id": 0, "name": "Path", "type": "blob" },
+        { "id": 0, "name": "Path", "type": "string", "max_length": 128 },
         { "id": 1, "name": "Hash", "type": "uint32_t" }
       ],
       "return_type": "uint8_t"
@@ -15,7 +15,7 @@
       "id": 1,
       "name": "FileRemove",
       "parameters": [
-        { "id": 0, "name": "Path", "type": "blob" }
+        { "id": 0, "name": "Path", "type": "string", "max_length": 128 }
       ],
       "return_type": "uint8_t"
     },
@@ -23,7 +23,7 @@
       "id": 2,
       "name": "FileWrite",
       "parameters": [
-        { "id": 0, "name": "Path", "type": "blob" },
+        { "id": 0, "name": "Path", "type": "string", "max_length": 128 },
         { "id": 1, "name": "Offset", "type": "uint32_t" },
         { "id": 2, "name": "Data", "type": "blob" },
         { "id": 3, "name": "Hash", "type": "uint32_t" }
@@ -34,7 +34,7 @@
       "id": 3,
       "name": "FileList",
       "parameters": [
-        { "id": 0, "name": "Path", "type": "blob" },
+        { "id": 0, "name": "Path", "type": "string", "max_length": 128 },
         { "id": 1, "name": "StartIndex", "type": "uint32_t" }
       ],
       "return_type": "blob"
