@@ -358,13 +358,13 @@ func MaxPlaySequenceSequence() int {
 	return max(0, xbot.MaxPacketSize-xbot.HeaderSize-9*xbot.DescriptorSize-10)
 }
 
-// MaxPlayMP3Path is the largest Path payload one PlayMP3 call can carry.
+// MaxPlayMP3Path is the largest Path payload one PlayMP3 call can carry and never more than the 64 bytes the schema accepts.
 //
 // One packet of RPC body minus the framing of the call: a descriptor per
 // parameter and the payloads of the fixed parameters. A call whose parameters
 // already use up the packet reports 0, never a negative budget.
 func MaxPlayMP3Path() int {
-	return max(0, xbot.MaxPacketSize-xbot.HeaderSize-2*xbot.DescriptorSize-1)
+	return min(64, max(0, xbot.MaxPacketSize-xbot.HeaderSize-2*xbot.DescriptorSize-1))
 }
 
 // SetSoundDefinitions writes the register 0 ("Sound Definitions" in the service.json) as a configuration transaction.
