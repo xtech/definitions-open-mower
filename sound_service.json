@@ -67,6 +67,13 @@
     {
       "id": 0,
       "name": "Volume",
+      "type": "int8_t"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "Volume",
       "type": "uint8_t"
     }
   ],
