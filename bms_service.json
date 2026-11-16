@@ -43,8 +43,22 @@
     },
     {
       "id": 8,
-      "name": "Extra Data",
-      "type": "char[256]"
+      "name": "CellVoltages",
+      "type": "float[8]"
+    },
+    {
+      "id": 9,
+      "name": "BatteryStatusRaw",
+      "type": "uint16_t"
+    }
+  ],
+  "functions": [
+    {
+      "id": 0,
+      "name": "GetDeviceInfo",
+      "parameters": [],
+      "return_type": "string",
+      "max_length": 256
     }
   ],
   "registers": [],
@@ -68,5 +82,5 @@
     }
   ],
   "type": "BmsService",
-  "version": 1
+  "version": 2
 }

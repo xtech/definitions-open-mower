@@ -4,7 +4,7 @@
 //
 //	xbot-codegen -service <service.json> [-service-id <id>] -out <file>.go
 
-// Package bmsservice is a client for the BmsService service (service.json version 1).
+// Package bmsservice is a client for the BmsService service (service.json version 2).
 package bmsservice
 
 import (
@@ -20,7 +20,9 @@ import (
 const ServiceID uint16 = 9
 
 // Function ids (service.json -> "functions").
-const ()
+const (
+	FnGetDeviceInfo uint8 = 0
+)
 
 // BatteryStatusBit values (service.json -> "enums").
 type BatteryStatusBit uint16
@@ -51,7 +53,7 @@ type Client struct {
 func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
 	opts.ServiceID = ServiceID
 	opts.ExpectType = "BmsService"
-	opts.ExpectVersion = 1
+	opts.ExpectVersion = 2
 	conn, err := xbot.Dial(ctx, opts)
 	if err != nil {
 		return nil, err
@@ -65,7 +67,26 @@ func (c *Client) Close() error { return c.conn.Close() }
 // Endpoint returns the "ip:port" of the service.
 func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 
-// The service has 9 outputs; receiving them needs a receive loop in
+// GetDeviceInfo calls the RPC function 0.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
+func (c *Client) GetDeviceInfo(ctx context.Context) (string, error) {
+	if c.sendOnly {
+		return "", c.conn.SendRPC(FnGetDeviceInfo)
+	}
+	payload, err := c.conn.Call(ctx, FnGetDeviceInfo)
+	if err != nil {
+		return "", err
+	}
+	if len(payload) > 256 {
+		return "", errf("GetDeviceInfo returned %d bytes, max 256", len(payload))
+	}
+	return string(payload), nil
+}
+
+// The service has 10 outputs; receiving them needs a receive loop in
 // xbot.Conn, which this client does not have yet.
 
 // ---- wire helpers ----------------------------------------------------------
