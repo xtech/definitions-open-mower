@@ -66,12 +66,12 @@ func (c *Client) FileExists(ctx context.Context, Path string, Hash uint32) (uint
 	}
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnFileExists,
-			xbot.Bytes(0, []byte(Path)),
+			xbot.String(0, Path),
 			xbot.Bytes(1, leUint32(Hash)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileExists,
-		xbot.Bytes(0, []byte(Path)),
+		xbot.String(0, Path),
 		xbot.Bytes(1, leUint32(Hash)),
 	)
 	if err != nil {
@@ -94,11 +94,11 @@ func (c *Client) FileRemove(ctx context.Context, Path string) (uint8, error) {
 	}
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnFileRemove,
-			xbot.Bytes(0, []byte(Path)),
+			xbot.String(0, Path),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileRemove,
-		xbot.Bytes(0, []byte(Path)),
+		xbot.String(0, Path),
 	)
 	if err != nil {
 		return 0, err
@@ -120,14 +120,14 @@ func (c *Client) FileWrite(ctx context.Context, Path string, Offset uint32, Data
 	}
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnFileWrite,
-			xbot.Bytes(0, []byte(Path)),
+			xbot.String(0, Path),
 			xbot.Bytes(1, leUint32(Offset)),
 			xbot.Bytes(2, Data),
 			xbot.Bytes(3, leUint32(Hash)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileWrite,
-		xbot.Bytes(0, []byte(Path)),
+		xbot.String(0, Path),
 		xbot.Bytes(1, leUint32(Offset)),
 		xbot.Bytes(2, Data),
 		xbot.Bytes(3, leUint32(Hash)),
@@ -152,12 +152,12 @@ func (c *Client) FileList(ctx context.Context, Path string, StartIndex uint32) (
 	}
 	if c.sendOnly {
 		return nil, c.conn.SendRPC(FnFileList,
-			xbot.Bytes(0, []byte(Path)),
+			xbot.String(0, Path),
 			xbot.Bytes(1, leUint32(StartIndex)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileList,
-		xbot.Bytes(0, []byte(Path)),
+		xbot.String(0, Path),
 		xbot.Bytes(1, leUint32(StartIndex)),
 	)
 	if err != nil {

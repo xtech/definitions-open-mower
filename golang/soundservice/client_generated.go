@@ -313,12 +313,12 @@ func (c *Client) PlayMP3(ctx context.Context, Path string, Preempt uint8) (uint8
 	}
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnPlayMP3,
-			xbot.Bytes(0, []byte(Path)),
+			xbot.String(0, Path),
 			xbot.Bytes(1, leUint8(Preempt)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnPlayMP3,
-		xbot.Bytes(0, []byte(Path)),
+		xbot.String(0, Path),
 		xbot.Bytes(1, leUint8(Preempt)),
 	)
 	if err != nil {
