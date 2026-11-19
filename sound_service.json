@@ -177,7 +177,7 @@
           "id": 0,
           "name": "Path",
           "type": "string",
-          "max_length": 64
+          "max_length": 63
         },
         {
           "id": 1,

@@ -58,7 +58,7 @@
       "name": "GetDeviceInfo",
       "parameters": [],
       "return_type": "string",
-      "max_length": 256
+      "max_length": 768
     }
   ],
   "registers": [],

@@ -80,8 +80,8 @@ func (c *Client) GetDeviceInfo(ctx context.Context) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if len(payload) > 256 {
-		return "", errf("GetDeviceInfo returned %d bytes, max 256", len(payload))
+	if len(payload) > 768 {
+		return "", errf("GetDeviceInfo returned %d bytes, max 768", len(payload))
 	}
 	return string(payload), nil
 }

@@ -308,8 +308,8 @@ func (c *Client) PlaySequence(ctx context.Context, Sequence []byte, Wave Wavefor
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
 func (c *Client) PlayMP3(ctx context.Context, Path string, Preempt uint8) (uint8, error) {
-	if len(Path) > 64 { // string, max_length 64
-		return 0, errf("Path too long (%d bytes, max 64)", len(Path))
+	if len(Path) > 63 { // string, max_length 63
+		return 0, errf("Path too long (%d bytes, max 63)", len(Path))
 	}
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnPlayMP3,
@@ -358,13 +358,13 @@ func MaxPlaySequenceSequence() int {
 	return max(0, xbot.MaxPacketSize-xbot.HeaderSize-9*xbot.DescriptorSize-10)
 }
 
-// MaxPlayMP3Path is the largest Path payload one PlayMP3 call can carry and never more than the 64 bytes the schema accepts.
+// MaxPlayMP3Path is the largest Path payload one PlayMP3 call can carry and never more than the 63 bytes the schema accepts.
 //
 // One packet of RPC body minus the framing of the call: a descriptor per
 // parameter and the payloads of the fixed parameters. A call whose parameters
 // already use up the packet reports 0, never a negative budget.
 func MaxPlayMP3Path() int {
-	return min(64, max(0, xbot.MaxPacketSize-xbot.HeaderSize-2*xbot.DescriptorSize-1))
+	return min(63, max(0, xbot.MaxPacketSize-xbot.HeaderSize-2*xbot.DescriptorSize-1))
 }
 
 // SetSoundDefinitions writes the register 0 ("Sound Definitions" in the service.json) as a configuration transaction.
