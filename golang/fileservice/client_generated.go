@@ -4,7 +4,7 @@
 //
 //	xbot-codegen -service <service.json> [-service-id <id>] -out <file>.go
 
-// Package fileservice is a client for the FileService service (service.json version 1).
+// Package fileservice is a client for the FileService service (service.json version 2).
 package fileservice
 
 import (
@@ -41,7 +41,7 @@ type Client struct {
 func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
 	opts.ServiceID = ServiceID
 	opts.ExpectType = "FileService"
-	opts.ExpectVersion = 1
+	opts.ExpectVersion = 2
 	conn, err := xbot.Dial(ctx, opts)
 	if err != nil {
 		return nil, err
@@ -61,17 +61,17 @@ func (c *Client) Endpoint() string { return c.conn.Endpoint() }
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
 func (c *Client) FileExists(ctx context.Context, Path string, Hash uint32) (uint8, error) {
-	if len(Path) >= 128 { // char[128] includes the NUL
-		return 0, errf("Path too long (%d bytes, max %d)", len(Path), 127)
+	if len(Path) > 128 { // string, max_length 128
+		return 0, errf("Path too long (%d bytes, max 128)", len(Path))
 	}
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnFileExists,
-			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.String(0, Path),
 			xbot.Bytes(1, leUint32(Hash)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileExists,
-		xbot.Bytes(0, charParam(Path, 128)),
+		xbot.String(0, Path),
 		xbot.Bytes(1, leUint32(Hash)),
 	)
 	if err != nil {
@@ -89,16 +89,16 @@ func (c *Client) FileExists(ctx context.Context, Path string, Hash uint32) (uint
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
 func (c *Client) FileRemove(ctx context.Context, Path string) (uint8, error) {
-	if len(Path) >= 128 { // char[128] includes the NUL
-		return 0, errf("Path too long (%d bytes, max %d)", len(Path), 127)
+	if len(Path) > 128 { // string, max_length 128
+		return 0, errf("Path too long (%d bytes, max 128)", len(Path))
 	}
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnFileRemove,
-			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.String(0, Path),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileRemove,
-		xbot.Bytes(0, charParam(Path, 128)),
+		xbot.String(0, Path),
 	)
 	if err != nil {
 		return 0, err
@@ -115,21 +115,21 @@ func (c *Client) FileRemove(ctx context.Context, Path string) (uint8, error) {
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
 func (c *Client) FileWrite(ctx context.Context, Path string, Offset uint32, Data []byte, Hash uint32) (int32, error) {
-	if len(Path) >= 128 { // char[128] includes the NUL
-		return 0, errf("Path too long (%d bytes, max %d)", len(Path), 127)
+	if len(Path) > 128 { // string, max_length 128
+		return 0, errf("Path too long (%d bytes, max 128)", len(Path))
 	}
 	if c.sendOnly {
 		return 0, c.conn.SendRPC(FnFileWrite,
-			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.String(0, Path),
 			xbot.Bytes(1, leUint32(Offset)),
-			xbot.Bytes(2, byteParam(Data, 256)),
+			xbot.Bytes(2, Data),
 			xbot.Bytes(3, leUint32(Hash)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileWrite,
-		xbot.Bytes(0, charParam(Path, 128)),
+		xbot.String(0, Path),
 		xbot.Bytes(1, leUint32(Offset)),
-		xbot.Bytes(2, byteParam(Data, 256)),
+		xbot.Bytes(2, Data),
 		xbot.Bytes(3, leUint32(Hash)),
 	)
 	if err != nil {
@@ -147,17 +147,17 @@ func (c *Client) FileWrite(ctx context.Context, Path string, Offset uint32, Data
 // (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
 // so the call is fire and forget and returns the zero value.
 func (c *Client) FileList(ctx context.Context, Path string, StartIndex uint32) ([]byte, error) {
-	if len(Path) >= 128 { // char[128] includes the NUL
-		return nil, errf("Path too long (%d bytes, max %d)", len(Path), 127)
+	if len(Path) > 128 { // string, max_length 128
+		return nil, errf("Path too long (%d bytes, max 128)", len(Path))
 	}
 	if c.sendOnly {
 		return nil, c.conn.SendRPC(FnFileList,
-			xbot.Bytes(0, charParam(Path, 128)),
+			xbot.String(0, Path),
 			xbot.Bytes(1, leUint32(StartIndex)),
 		)
 	}
 	payload, err := c.conn.Call(ctx, FnFileList,
-		xbot.Bytes(0, charParam(Path, 128)),
+		xbot.String(0, Path),
 		xbot.Bytes(1, leUint32(StartIndex)),
 	)
 	if err != nil {
@@ -180,6 +180,51 @@ func (c *Client) FileStats(ctx context.Context) ([]uint32, error) {
 		return nil, err
 	}
 	return readUint32Slice(payload, 4)
+}
+
+// MaxFileExistsPath is the largest Path payload one FileExists call can carry and never more than the 128 bytes the schema accepts.
+//
+// One packet of RPC body minus the framing of the call: a descriptor per
+// parameter and the payloads of the fixed parameters. A call whose parameters
+// already use up the packet reports 0, never a negative budget.
+func MaxFileExistsPath() int {
+	return min(128, max(0, xbot.MaxPacketSize-xbot.HeaderSize-2*xbot.DescriptorSize-4))
+}
+
+// MaxFileRemovePath is the largest Path payload one FileRemove call can carry and never more than the 128 bytes the schema accepts.
+//
+// One packet of RPC body minus the framing of the call: a descriptor per
+// parameter and the payloads of the fixed parameters. A call whose parameters
+// already use up the packet reports 0, never a negative budget.
+func MaxFileRemovePath() int {
+	return min(128, max(0, xbot.MaxPacketSize-xbot.HeaderSize-1*xbot.DescriptorSize))
+}
+
+// MaxFileWritePath is the largest Path payload one FileWrite call can carry and never more than the 128 bytes the schema accepts.
+//
+// One packet of RPC body minus the framing of the call: a descriptor per
+// parameter and the payloads of the fixed parameters. A call whose parameters
+// already use up the packet reports 0, never a negative budget.
+func MaxFileWritePath(Data []byte) int {
+	return min(128, max(0, xbot.MaxPacketSize-xbot.HeaderSize-4*xbot.DescriptorSize-8-len(Data)))
+}
+
+// MaxFileWriteData is the largest Data payload one FileWrite call can carry.
+//
+// One packet of RPC body minus the framing of the call: a descriptor per
+// parameter and the payloads of the fixed parameters. A call whose parameters
+// already use up the packet reports 0, never a negative budget.
+func MaxFileWriteData(Path string) int {
+	return max(0, xbot.MaxPacketSize-xbot.HeaderSize-4*xbot.DescriptorSize-8-len(Path))
+}
+
+// MaxFileListPath is the largest Path payload one FileList call can carry and never more than the 128 bytes the schema accepts.
+//
+// One packet of RPC body minus the framing of the call: a descriptor per
+// parameter and the payloads of the fixed parameters. A call whose parameters
+// already use up the packet reports 0, never a negative budget.
+func MaxFileListPath() int {
+	return min(128, max(0, xbot.MaxPacketSize-xbot.HeaderSize-2*xbot.DescriptorSize-4))
 }
 
 // ---- wire helpers ----------------------------------------------------------
