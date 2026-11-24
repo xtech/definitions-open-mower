@@ -15,7 +15,7 @@
     {
       "id": 1,
       "name": "Left ESC Status",
-      "type": "uint8_t"
+      "type": "DriveEscStatus"
     },
     {
       "id": 2,
@@ -30,7 +30,7 @@
     {
       "id": 4,
       "name": "Right ESC Status",
-      "type": "uint8_t"
+      "type": "DriveEscStatus"
     },
     {
       "id": 5,
@@ -60,6 +60,20 @@
       "type": "double"
     }
   ],
+  "enums": [
+    {
+      "id": "DriveEscStatus",
+      "base_type": "uint8_t",
+      "to_string": true,
+      "values": {
+        "DISCONNECTED": 99,
+        "ERROR": 100,
+        "STALLED": 150,
+        "OK": 200,
+        "RUNNING": 201
+      }
+    }
+  ],
   "type": "DiffDriveService",
-  "version": 1
+  "version": 2
 }

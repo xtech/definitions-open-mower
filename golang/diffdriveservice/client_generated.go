@@ -4,7 +4,7 @@
 //
 //	xbot-codegen -service <service.json> [-service-id <id>] -out <file>.go
 
-// Package diffdriveservice is a client for the DiffDriveService service (service.json version 1).
+// Package diffdriveservice is a client for the DiffDriveService service (service.json version 2).
 package diffdriveservice
 
 import (
@@ -22,6 +22,34 @@ const ServiceID uint16 = 2
 // Function ids (service.json -> "functions").
 const ()
 
+// DriveESCStatus is the service.json enum "DriveEscStatus".
+type DriveESCStatus uint8
+
+const (
+	DriveESCStatusDisconnected DriveESCStatus = 99  // DISCONNECTED
+	DriveESCStatusError        DriveESCStatus = 100 // ERROR
+	DriveESCStatusStalled      DriveESCStatus = 150 // STALLED
+	DriveESCStatusOk           DriveESCStatus = 200 // OK
+	DriveESCStatusRunning      DriveESCStatus = 201 // RUNNING
+)
+
+// String returns the name of the value.
+func (v DriveESCStatus) String() string {
+	switch v {
+	case DriveESCStatusDisconnected:
+		return "disconnected"
+	case DriveESCStatusError:
+		return "error"
+	case DriveESCStatusStalled:
+		return "stalled"
+	case DriveESCStatusOk:
+		return "ok"
+	case DriveESCStatusRunning:
+		return "running"
+	}
+	return ""
+}
+
 // Client is a client for the DiffDriveService service.
 type Client struct {
 	conn *xbot.Conn
@@ -35,7 +63,7 @@ type Client struct {
 func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
 	opts.ServiceID = ServiceID
 	opts.ExpectType = "DiffDriveService"
-	opts.ExpectVersion = 1
+	opts.ExpectVersion = 2
 	conn, err := xbot.Dial(ctx, opts)
 	if err != nil {
 		return nil, err
