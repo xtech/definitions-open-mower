@@ -4,7 +4,7 @@
 //
 //	xbot-codegen -service <service.json> [-service-id <id>] -out <file>.go
 
-// Package mowerservice is a client for the MowerService service (service.json version 2).
+// Package mowerservice is a client for the MowerService service (service.json version 3).
 package mowerservice
 
 import (
@@ -22,6 +22,34 @@ const ServiceID uint16 = 3
 // Function ids (service.json -> "functions").
 const ()
 
+// MowerESCStatus is the service.json enum "MowerEscStatus".
+type MowerESCStatus uint8
+
+const (
+	MowerESCStatusDisconnected MowerESCStatus = 99  // DISCONNECTED
+	MowerESCStatusError        MowerESCStatus = 100 // ERROR
+	MowerESCStatusStalled      MowerESCStatus = 150 // STALLED
+	MowerESCStatusOk           MowerESCStatus = 200 // OK
+	MowerESCStatusRunning      MowerESCStatus = 201 // RUNNING
+)
+
+// String returns the name of the value.
+func (v MowerESCStatus) String() string {
+	switch v {
+	case MowerESCStatusDisconnected:
+		return "disconnected"
+	case MowerESCStatusError:
+		return "error"
+	case MowerESCStatusStalled:
+		return "stalled"
+	case MowerESCStatusOk:
+		return "ok"
+	case MowerESCStatusRunning:
+		return "running"
+	}
+	return ""
+}
+
 // Client is a client for the MowerService service.
 type Client struct {
 	conn *xbot.Conn
@@ -35,7 +63,7 @@ type Client struct {
 func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
 	opts.ServiceID = ServiceID
 	opts.ExpectType = "MowerService"
-	opts.ExpectVersion = 2
+	opts.ExpectVersion = 3
 	conn, err := xbot.Dial(ctx, opts)
 	if err != nil {
 		return nil, err

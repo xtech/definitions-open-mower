@@ -10,7 +10,7 @@
     {
       "id": 0,
       "name": "Mower Status",
-      "type": "uint8_t"
+      "type": "MowerEscStatus"
     },
     {
       "id": 1,
@@ -44,7 +44,20 @@
     }
   ],
   "registers": [],
-  "enums": [],
+  "enums": [
+    {
+      "id": "MowerEscStatus",
+      "base_type": "uint8_t",
+      "to_string": true,
+      "values": {
+        "DISCONNECTED": 99,
+        "ERROR": 100,
+        "STALLED": 150,
+        "OK": 200,
+        "RUNNING": 201
+      }
+    }
+  ],
   "type": "MowerService",
-  "version": 2
+  "version": 3
 }
