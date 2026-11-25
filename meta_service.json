@@ -1,6 +1,6 @@
 {
   "type": "MetaService",
-  "version": 1,
+  "version": 2,
   "functions": [
     {
       "id": 0,
@@ -13,6 +13,12 @@
       "name": "GetMajorVersion",
       "parameters": [],
       "return_type": "uint16_t"
+    },
+    {
+      "id": 2,
+      "name": "GetRobotVariant",
+      "parameters": [],
+      "return_type": "char[50]"
     }
   ],
   "registers": [
