@@ -4,7 +4,7 @@
 //
 //	xbot-codegen -service <service.json> [-service-id <id>] -out <file>.go
 
-// Package metaservice is a client for the MetaService service (service.json version 1).
+// Package metaservice is a client for the MetaService service (service.json version 2).
 package metaservice
 
 import (
@@ -23,6 +23,7 @@ const ServiceID uint16 = 11
 const (
 	FnGetFirmwareVersion uint8 = 0
 	FnGetMajorVersion    uint8 = 1
+	FnGetRobotVariant    uint8 = 2
 )
 
 // Client is a client for the MetaService service.
@@ -38,7 +39,7 @@ type Client struct {
 func Dial(ctx context.Context, opts xbot.Options) (*Client, error) {
 	opts.ServiceID = ServiceID
 	opts.ExpectType = "MetaService"
-	opts.ExpectVersion = 1
+	opts.ExpectVersion = 2
 	conn, err := xbot.Dial(ctx, opts)
 	if err != nil {
 		return nil, err
@@ -85,6 +86,22 @@ func (c *Client) GetMajorVersion(ctx context.Context) (uint16, error) {
 		return 0, errf("GetMajorVersion returned %d bytes, want 2", len(payload))
 	}
 	return binary.LittleEndian.Uint16(payload[:2]), nil
+}
+
+// GetRobotVariant calls the RPC function 2.
+//
+// It only waits for the answer when this client owns the service. Without a claim
+// (Options.NoClaim or Options.Endpoint) the service sends its answer to the owner,
+// so the call is fire and forget and returns the zero value.
+func (c *Client) GetRobotVariant(ctx context.Context) (string, error) {
+	if c.sendOnly {
+		return "", c.conn.SendRPC(FnGetRobotVariant)
+	}
+	payload, err := c.conn.Call(ctx, FnGetRobotVariant)
+	if err != nil {
+		return "", err
+	}
+	return charValue(payload), nil
 }
 
 // SetRobotFirmware writes the register 0 ("Robot Firmware" in the service.json) as a configuration transaction.
